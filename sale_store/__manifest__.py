@@ -3,7 +3,7 @@
 {
     'name': "Sales by Stores",
     'version': '1.0',
-    'depends': ['sale_management', 'sale_stock'],
+    'depends': ['sale_management', 'sale_stock', 'purchase_stock'],
     'author': 'Odoo Inc',
     'license': 'OEEL-1',
     'maintainer': 'Odoo Inc',
@@ -23,10 +23,17 @@ Sales By Stores(Warehouse)
 - Feature 4:
     Functionality to restrict all inventory documents based on the warehouses assigend to them and the locations
     of those warehouses.
+- [ADD] Additional Requirement:
+    Added a warehouse field on purchase order.
+    Added a sequence field on warehouse configuration.
+    On PO creation if the po has picking type associated the sequence for the pos is based on the sequence on
+    the warehouse associated with the picking type
     """,
     # data files always loaded at installation
     'data': [
         'security/sale_store_security.xml',
         'views/res_users_views.xml',
+        'views/stock_views.xml',
+        'views/purchase_views.xml',
     ],
 }

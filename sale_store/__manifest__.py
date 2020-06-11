@@ -9,7 +9,7 @@
     'maintainer': 'Odoo Inc',
     'category': 'Sales',
     'description': """
-Sales By Stores(Warehouse)
+Sales By Stores(Warehouse):
 ==========================
 - Feature 1:
     Functionality to assign warehouse(s) to a user and on sales order warehouse should be changed based on

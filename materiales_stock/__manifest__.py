@@ -8,8 +8,7 @@
     'version': '1.1',
     'author': 'Odoo Inc',
     'description': """
-    - currency rate value on SO, company currency value on SO Line
-    - pass product unit price (company currency) to invoice 
+    - - Raise a validation error if the done quantity  is greater than demand
     """,
     'category': 'Custom Development',
 

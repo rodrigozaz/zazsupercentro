@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Aged Payable Reference",
+    'name': "MC:Add Reference field in Aged Payable",
 
     'summary': """
         Add reference field to aged payable report""",
 
     'description': """
-        Long description of module's purpose
+        Task ID:2283600
     """,
 
     'author': "Odoo Inc",
     'website': "http://www.odoo.com",
     'category': 'Uncategorized',
     'version': '1.0',
-    'license': 'LGPL-3',
-    'depends': ['base', 'account_reports'],
+    'license': 'OEEL-3',
+    'depends': ['account_reports'],
 }

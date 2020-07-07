@@ -8,7 +8,7 @@
     'version': '1.1',
     'author': 'Odoo Inc',
     'description': """
-    - - Raise a validation error if the done quantity  is greater than demand
+    - Raise a validation error if the done quantity is greater than demand
     """,
     'category': 'Custom Development',
 

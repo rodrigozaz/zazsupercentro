@@ -13,7 +13,7 @@ class Picking(models.Model):
             move_lines = self.move_lines or self.move_ids_without_package
             for line in move_lines:
                 if line.quantity_done > line.product_uom_qty:
-                    raise ValidationError('You cannot receive more than the ordered quantity. Please, enter another quantity')
+                    raise ValidationError(_('You cannot receive more than the ordered quantity. Please, enter another quantity'))
         res = super(Picking,self).button_validate()
         return res 
         

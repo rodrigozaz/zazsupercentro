@@ -4,11 +4,16 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
-class StockMoveLine(models.Model):
-    _inherit = "stock.move.line"
+class Picking(models.Model):
+    _inherit = "stock.picking"
 
-    @api.constrains('qty_done')
-    def _validate_quantity(self):
-        for record in self:
-            if record.qty_done > record.move_id.product_uom_qty:
-                raise ValidationError(_('You cannot receive more than the ordered quantity. Please, enter another quantity'))
+    def button_validate(self):
+        self.ensure_one()
+        if self.picking_type_code == 'incoming':
+            move_lines = self.move_lines or self.move_ids_without_package
+            for line in move_lines:
+                if line.quantity_done > line.product_uom_qty:
+                    raise ValidationError(_('You cannot receive more than the ordered quantity. Please, enter another quantity'))
+        res = super(Picking,self).button_validate()
+        return res 
+        

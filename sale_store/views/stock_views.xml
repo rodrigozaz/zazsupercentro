@@ -7,6 +7,11 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='wh_output_stock_loc_id']" position="after">
                 <field name="purchase_seq_id"/>
+                <field name="sale_seq_id"/>
+                <field name="cust_in_pay_seq_id"/>
+                <field name="cust_out_pay_seq_id"/>
+                <field name="supp_in_pay_seq_id"/>
+                <field name="supp_out_pay_seq_id"/>
             </xpath>
         </field>
     </record>

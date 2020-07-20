@@ -28,6 +28,12 @@ Sales By Stores(Warehouse):
     Added a sequence field on warehouse configuration.
     On PO creation if the po has picking type associated the sequence for the pos is based on the sequence on
     the warehouse associated with the picking type
+- [ADD] Additional Requirement:
+    Added a warehouse field on journal.
+    Added customer/supplier payment sequences on warehouse itself.
+    Sale order name also should be according to seq on warehouse.
+    Payment name sequence should also be based on warehouse.
+    Updated views accordingly.
     """,
     # data files always loaded at installation
     'data': [
@@ -35,5 +41,6 @@ Sales By Stores(Warehouse):
         'views/res_users_views.xml',
         'views/stock_views.xml',
         'views/purchase_views.xml',
+        'views/account_views.xml',
     ],
 }

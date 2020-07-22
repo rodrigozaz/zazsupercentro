@@ -9,7 +9,7 @@ class Picking(models.Model):
 
     def button_validate(self):
         self.ensure_one()
-        if self.picking_type_code == 'incoming':
+        if self.picking_type_code == 'incoming' or self.picking_type_code == "outgoing":
             move_lines = self.move_lines or self.move_ids_without_package
             for line in move_lines:
                 if line.quantity_done > line.product_uom_qty:

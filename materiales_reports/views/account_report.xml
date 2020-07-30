@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_inherit_materiales" inherit_id="account.report_invoice_document">
+        <address t-field="o.partner_id" position="before">
+            <span><strong>Vendido a:</strong></span>
+        </address>
+
+        <p t-if="o.narration" position="attributes">
+            <attribute name="style" separator=";" add="font-size:11px"/>
+            <attribute name="style" separator=";" add="line-height:1.2"/>
+        </p>
+        <xpath expr="//table[@name='invoice_line_table']/tbody" position="attributes">
+            <attribute name="style" separator=";" add="font-size:11px"/>
+        </xpath>
+
+        <td name="account_invoice_line_name" position="attributes">
+            <attribute name="style" separator=";" add="width:90%"/>
+        </td>
+    </template>
+</odoo>

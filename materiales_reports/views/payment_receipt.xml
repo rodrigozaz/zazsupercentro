@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_payment_receipt_inherit_materiales" inherit_id="l10n_mx_edi.report_payment_document_mx">
+        <xpath expr="//h3[1]" position="after">
+            <t t-if="o.l10n_mx_edi_cfdi_uuid">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <!--Codigo-->
+                            <th class="mx-label">Code</th>
+                            <!--Cantidad-->
+                            <th class="mx-label">Quantity</th>
+                            <!--Descripcion-->
+                            <th class="mx-label">Description</th>
+                        <!--Unidad de Medida-->
+                            <th class="mx-label">Unit of Measurement</th>
+                        <!--precio Unitario-->
+                            <th class="mx-label">Unit Price</th>
+                            <!--Importe-->
+                            <th class="mx-label">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td><span t-esc="xml.Conceptos.Concepto.get('ClaveProdServ','')"/></td>
+                          <td><span t-esc="xml.Conceptos.Concepto.get('Cantidad','')"/></td>
+                          <td><span t-esc="xml.Conceptos.Concepto.get('Descripcion','')"/></td>
+                          <td><span t-esc="xml.Conceptos.Concepto.get('ClaveUnidad','')"/></td>
+                          <td><span t-esc="xml.Conceptos.Concepto.get('ValorUnitario','')"/></td>
+                          <td><span t-esc="xml.Conceptos.Concepto.get('Importe','')"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </t>
+        </xpath>
+    </template>
+</odoo>

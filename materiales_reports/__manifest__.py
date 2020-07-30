@@ -1,9 +1,11 @@
 # -- coding: utf-8 --
 {
-    'name': '',
-    'summary': '',
-    'description': 
-    """""",
+    'name': 'Materiales Custom Reports',
+    'summary': 'materiales form customizstion',
+    'description': """
+    Task id: 2293807
+    forms customizations for RFQ PO SO bills and payment receipt
+    """,
     'author': 'Odoo',
     'website': 'https://www.odoo.com/',
 

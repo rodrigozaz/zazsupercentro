@@ -19,3 +19,16 @@ class PurchaseOrder(models.Model):
             if picking_type.exists() and picking_type.warehouse_id and picking_type.warehouse_id.purchase_seq_id:
                 vals['name'] = picking_type.warehouse_id.purchase_seq_id.next_by_id(sequence_date=seq_date)
         return super(PurchaseOrder, self).create(vals)
+
+    def write(self, vals):
+        res = super(PurchaseOrder, self).write(vals)
+        if vals.get('picking_type_id', False) and vals['picking_type_id'] != False:
+            for order in self.filtered(lambda po: po.state == 'draft'):
+                seq_date = None
+                picking_type = order.picking_type_id
+                if order.date_order:
+                    seq_date = fields.Datetime.context_timestamp(self, order.date_order)
+                if picking_type.exists() and picking_type.warehouse_id and picking_type.warehouse_id.purchase_seq_id:
+                    order.name = picking_type.warehouse_id.purchase_seq_id.next_by_id(sequence_date=seq_date)
+        return res
+

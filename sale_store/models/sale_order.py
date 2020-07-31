@@ -11,7 +11,7 @@ class SaleOrder(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get('namd', _('New')) == _('New') and vals.get('warehouse_id'):
+        if vals.get('name', _('New')) == _('New') and vals.get('warehouse_id'):
             seq_date = None
             if 'date_order' in vals:
                 seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals['date_order']))
@@ -19,6 +19,19 @@ class SaleOrder(models.Model):
             if warehouse and warehouse.sale_seq_id:
                 vals['name'] = warehouse.sale_seq_id.next_by_id(sequence_date=seq_date) or _('New')
         return super(SaleOrder, self).create(vals)
+
+    def write(self, vals):
+        res = super(SaleOrder, self).write(vals)
+        if vals.get('warehouse_id', False):
+            for order in self.filtered(lambda so: so.state == 'draft'):
+                order_num = order.name
+                seq_date = None
+                if order.date_order:
+                    seq_date = fields.Datetime.context_timestamp(self, order.date_order)
+                if order.warehouse_id and order.warehouse_id.sale_seq_id:
+                    order.name = order.warehouse_id.sale_seq_id.next_by_id(sequence_date=seq_date) or order_num
+        return res
+
     @api.onchange('user_id')
     def onchange_user_id(self):
         super(SaleOrder, self).onchange_user_id()

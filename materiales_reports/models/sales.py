@@ -10,6 +10,8 @@ class SaleOrder(models.Model):
         E.g. 100 - ONE HUNDRED
         :returns: Amount transformed to words mexican format for invoices
         :rtype: str
+
+        method came from  l10n_mx_edi_amount_to_text()
         """
         self.ensure_one()
         currency = self.currency_id.name.upper()

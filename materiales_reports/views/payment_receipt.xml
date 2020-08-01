@@ -12,9 +12,9 @@
                             <th class="mx-label">Quantity</th>
                             <!--Descripcion-->
                             <th class="mx-label">Description</th>
-                        <!--Unidad de Medida-->
+                            <!--Unidad de Medida-->
                             <th class="mx-label">Unit of Measurement</th>
-                        <!--precio Unitario-->
+                            <!--precio Unitario-->
                             <th class="mx-label">Unit Price</th>
                             <!--Importe-->
                             <th class="mx-label">Amount</th>

@@ -1,7 +1,7 @@
 # -- coding: utf-8 --
 {
     'name': 'Materiales Custom Reports',
-    'summary': 'materiales form customizstion',
+    'summary': 'materiales form customization',
     'description': """
     Task id: 2293807
     forms customizations for RFQ PO SO bills and payment receipt

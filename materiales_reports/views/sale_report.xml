@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_sale_inherit_materiales" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//p[@t-field='doc.note']" position="before">
+            <p>
+                <span t-esc="doc.amount_to_text()"/>
+            </p>
+        </xpath>
+        <xpath expr="//table/tbody" position="attributes">
+            <attribute name="style" separator=";" add="font-size:12px"/>
+        </xpath>
+
+        <td name="td_name" position="attributes">
+            <attribute name="style" separator=";" add="width:90%"/>
+        </td>
+    </template>
+</odoo>

@@ -5,6 +5,10 @@
             <span><strong>Vendido a:</strong></span>
         </address>
 
+        <xpath expr="//th[@name='th_priceunit']" position="replace">
+            <th name="th_priceunit" t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"><span>Unit Price</span></th>
+        </xpath>
+
         <p t-if="o.narration" position="attributes">
             <attribute name="style" separator=";" add="font-size:10px"/>
             <attribute name="style" separator=";" add="line-height:1"/>
@@ -16,7 +20,7 @@
         <td name="account_invoice_line_name" position="attributes">
             <attribute name="style" separator=";" add="width:90%"/>
         </td>
-<!-- new -->
+        <!-- new -->
         <xpath expr="//table[@name='invoice_line_table']/thead/tr" position="attributes">
             <attribute name="style" separator=";" add="font-size:10px"/>
         </xpath>
@@ -50,6 +54,18 @@
                 <p class="m-0" t-field="o.invoice_user_id"/>
             </div>
         </xpath>
+        <!-- more -->
+
+        
+        <xpath expr="//th[@name='th_taxes']" position="replace">
+            <th name="th_taxes" t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"><span>Taxes</span></th>
+        </xpath>
+
+        <div class="clearfix" position="after">
+            <p t-if="o.l10n_mx_edi_cfdi_uuid">
+                Fiscal Folio  : <b><span t-field="o.l10n_mx_edi_cfdi_uuid"/></b>
+            </p>
+        </div>
 
     </template>
 </odoo>

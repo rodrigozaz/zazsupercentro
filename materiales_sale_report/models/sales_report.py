@@ -66,8 +66,12 @@ class ReportAttendanceRecap(models.AbstractModel):
 
             inv['down_payment'] = False
             if inv['invoice_origin'] and inv['down'] == False:
-                inv['down_payment'] = inv_obj.invoice_line_ids.sale_line_ids.mapped("order_id.invoice_ids")
-                # inv['down_payment'] = self.env['sale.order'].search([('name','=',inv['invoice_origin'])]).invoice_ids
+                inv['down_payment'] = []
+                all_invs= inv_obj.invoice_line_ids.sale_line_ids.mapped("order_id.invoice_ids")
+                for i in all_invs:
+                    print(i.name)
+                    if not i.name[0] == 'R' and not i.id == inv_obj.id :
+                        inv['down_payment'].append(i)
 
         last_invoice = 0
         if len(invoices) >= 1:

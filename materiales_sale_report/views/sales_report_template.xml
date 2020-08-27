@@ -157,7 +157,7 @@
                         <tbody>
                             <t t-set="down_total" t-value="0"/>
                             <t t-foreach="invoices" t-as="line">
-                                <t t-if="line['down'] == False and line['down_payment']">
+                                <t t-if="line['down'] == False and line['down_payment'] and len(line['down_payment']) >= 1">
                                     <tr>
                                         <td class="text-left">
                                             <span t-esc="int(line['name'].split('/')[-1])"/>
@@ -178,7 +178,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <t t-foreach="line['down_payment']" t-as="down">
-                                                            <t t-if="down['id'] != line['id'] and not down['state']=='cancel' and not down['name'][0] =='R' ">
+                                                            <t t-if="not down['state']=='cancel' ">
                                                                 <tr>
                                                                     <td class="text-left">
                                                                         <span t-esc="int(down['name'].split('/')[-1])"/>

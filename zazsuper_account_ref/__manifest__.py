@@ -11,7 +11,7 @@
 
     'author': "Odoo Inc",
     'website': "http://www.odoo.com",
-    'category': 'Custom Development',
+    'category': 'Custom Development'
     'version': '1.0',
     'license': 'OEEL-1',
     'depends': ['account_reports'],

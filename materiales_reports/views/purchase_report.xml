@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_purchaseorder_inherit_materiales" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//p[@t-field='o.notes']" position="before">
+            <p>
+                <span t-esc="o.amount_to_text()"/>
+            </p>
+        </xpath>
+        <xpath expr="//table/tbody" position="attributes">
+            <attribute name="style" separator=";" add="font-size:11px"/>
+        </xpath>
+
+        <td id="product" position="attributes">
+            <attribute name="style" separator=";" add="width:85%"/>
+        </td>
+    </template>
+
+    <template id="report_purchasequotation_inherit_materiales" inherit_id="purchase.report_purchasequotation_document">
+        <xpath expr="//p[@t-field='o.notes']" position="before">
+            <p>
+                <span t-esc="o.amount_to_text()"/>
+            </p>
+        </xpath>
+    </template>
+</odoo>

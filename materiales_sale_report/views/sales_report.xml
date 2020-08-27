@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>        
-        <!-- <report 
-            id="action_daily_sale_warehouse"
-            model="warehouse.sales"
-            string="Warehouse Daily Sales"
-            report_type="qweb-pdf"
-            name="materiales_sale_report.daily_sale_report"
-            file="materiales_sale_report.daily_sale_report" 
-        />  -->
-
         <record id="action_daily_sale_warehouse" model="ir.actions.report">
             <field name="name">Daily Sales Details</field>
             <field name="model">report.materiales_sale_report.daily_sale_report</field>

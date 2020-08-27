@@ -41,9 +41,11 @@ class ReportAttendanceRecap(models.AbstractModel):
             'name':location_info['name'],
             'id':location_info['id']
         }
+
         
         invoices = self.env['account.move'].search_read([('invoice_date','=',report_date),('warehouse_id','=',location['id']),('type','=','out_invoice')])
         for inv in invoices:
+            inv_obj= self.env['account.move'].browse(inv['id'])
             inv_widgets = self.env['account.move'].search([('name','=',inv['name'])]).get_widget_detail()
             inv['credit'] = []
             for cred in inv_widgets:
@@ -64,7 +66,8 @@ class ReportAttendanceRecap(models.AbstractModel):
 
             inv['down_payment'] = False
             if inv['invoice_origin'] and inv['down'] == False:
-                inv['down_payment'] = self.env['sale.order'].search([('name','=',inv['invoice_origin'])]).invoice_ids
+                inv['down_payment'] = inv_obj.invoice_line_ids.sale_line_ids.mapped("order_id.invoice_ids")
+                # inv['down_payment'] = self.env['sale.order'].search([('name','=',inv['invoice_origin'])]).invoice_ids
 
         last_invoice = 0
         if len(invoices) >= 1:

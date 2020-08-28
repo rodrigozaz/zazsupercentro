@@ -36,13 +36,13 @@
                                 <t t-if="line['down'] == False">
                                     <tr>
                                         <td class="text-left">
-                                            <span t-esc="int(line['name'].split('/')[-1])"/>
+                                            <span t-esc="line['num']"/>
                                         </td>
                                         <td class="text-left">
                                             <span t-esc="line['partner_id'][1]"/>
                                         </td>
                                         <td class="text-left">
-                                            <span t-esc="line['amount_total']"/>
+                                            <span t-esc="line['amount_total']"  t-options='{"precision": 2, "widget": "float"}'/>
                                         </td>
                                         <td class="text-left">
                                             <t t-if="line['invoice_payment_state'] == 'not_paid' and len(line['bills']) >= 1">Partially Paid</t>
@@ -59,10 +59,10 @@
                                                             <tr>
                                                                 <td>
                                                                     <t t-if="pay['payment_method'] and pay['payment_method'][1]">
-                                                                        <t t-if="pay['payment_method'][1] == 'Efectivo'"><span>Efectivo</span><t t-set="cash" t-value="cash + pay['amount']"/></t>
-                                                                        <t t-if="pay['payment_method'][1] == 'Transferencia electrónica de fondos'"><span>Transferencia</span><t t-set="transfer" t-value="transfer + pay['amount']"/></t>
-                                                                        <t t-if="pay['payment_method'][1] == 'Tarjeta de Crédito'"><span>TC</span><t t-set="credit" t-value="credit + pay['amount']"/></t>
-                                                                        <t t-if="pay['payment_method'][1] == 'Cheque nominativo'"><span>Cheque</span><t t-set="check" t-value="check + pay['amount']"/></t>
+                                                                        <t t-if="pay['payment_method'][1] == 'Efectivo'"><span>Efectivo</span><t t-set="cash" t-value="cash + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
+                                                                        <t t-if="pay['payment_method'][1] == 'Transferencia electrónica de fondos'"><span>Transferencia</span><t t-set="transfer" t-value="transfer + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
+                                                                        <t t-if="pay['payment_method'][1] == 'Tarjeta de Crédito'"><span>TC</span><t t-set="credit" t-value="credit + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
+                                                                        <t t-if="pay['payment_method'][1] == 'Cheque nominativo'"><span>Cheque</span><t t-set="check" t-value="check + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
 
                                                                     </t>
                                                                     <t t-else="">
@@ -71,12 +71,12 @@
                                                                 </td>
                                                                 <t t-if="pay['ref'][0]=='R'"> 
                                                                     <td><span t-esc="pay['ref'].split(' (')[0]"/></td>
-                                                                    <td><span t-esc="pay['amount']"/></td>
+                                                                    <td><span t-esc="pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></td>
                                                                 </t>
                                                                 <t t-else="">
                                                                     <td><t t-if="pay['payment_method']"><span t-esc="pay['payment_method'][0]"/></t></td> 
-                                                                    <td><span t-esc="pay['amount']"/></td>
-                                                                    <t t-set="total" t-value="total + pay['amount']"/>
+                                                                    <td><span t-esc="pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></td>
+                                                                    <t t-set="total" t-value="total + pay['amount']" />
                                                                 </t>
                                                             </tr>
                                                         </t>
@@ -104,37 +104,37 @@
                                     <tr class="o_total">
                                         <td></td>
                                         <td class="text-right">
-                                            <span class="text-nowrap" t-esc="total"/>
+                                            <span class="text-nowrap" t-esc="total"  t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><strong>Efectivo</strong></td>
                                         <td class="text-right">
-                                            <span class="text-nowrap" t-esc="cash"/>
+                                            <span class="text-nowrap" t-esc="cash"  t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><strong>TC</strong></td>
                                         <td class="text-right">
-                                            <span class="text-nowrap" t-esc="credit"/>
+                                            <span class="text-nowrap" t-esc="credit"  t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><strong>Transferencia</strong></td>
                                         <td class="text-right">
-                                            <span class="text-nowrap" t-esc="transfer"/>
+                                            <span class="text-nowrap" t-esc="transfer"  t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><strong>Cheque</strong></td>
                                         <td class="text-right">
-                                            <span class="text-nowrap" t-esc="check"/>
+                                            <span class="text-nowrap" t-esc="check"  t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                     </tr>
                                     <tr class="o_total">
                                         <td></td>
                                         <td class="text-right">
-                                            <span class="text-nowrap" t-esc="total"/>
+                                            <span class="text-nowrap" t-esc="total"  t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                     </tr>
                                 </table>
@@ -163,7 +163,7 @@
                                             <span t-esc="int(line['name'].split('/')[-1])"/>
                                         </td>
                                         <td class="text-left">
-                                            <span t-esc="line['amount_total']"/>
+                                            <span t-esc="line['amount_total']"  t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                         <td class="text-left">
                                             <div class="col-3">
@@ -185,7 +185,7 @@
                                                                     </td>
                                                                     <td class="text-left">
                                                                         <span t-esc="down['amount_total']"/>
-                                                                        <t t-set="down_total" t-value="down_total + down['amount_total']"/>
+                                                                        <t t-set="down_total" t-value="down_total + down['amount_total']"  t-options='{"widget": "float", "precision": 2}'/>
                                                                     </td>
                                                                 </tr>
                                                             </t>
@@ -198,20 +198,20 @@
                                                     <tr class="o_down_total">
                                                         <td><strong>Total Downpayments:</strong></td>
                                                         <td class="text-right">
-                                                            <span class="text-nowrap" t-esc="down_total"/>
+                                                            <span class="text-nowrap" t-esc="down_total"  t-options='{"widget": "float", "precision": 2}'/>
                                                         </td>
                                                     </tr>
                                                     <tr class="o_total">
                                                         <td><strong>Total:</strong></td>
                                                         <td class="text-right">
-                                                            <span class="text-nowrap" t-esc="line['amount_total'] - down_total"/>
+                                                            <span class="text-nowrap" t-esc="line['amount_total'] - down_total"  t-options='{"widget": "float", "precision": 2}'/>
                                                         </td>
                                                     </tr>
                                                 </table>
                                             </div>
                                         </td>
                                         <td class="text-left">
-                                            <span class="text-nowrap" t-esc="down_total"/>
+                                            <span class="text-nowrap" t-esc="down_total" t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                     </tr>
                                 </t>
@@ -243,7 +243,7 @@
                                             <span t-esc="cred['ref'].split(' (')[0]"/>
                                         </td>
                                         <td class="text-left">
-                                            <span t-esc="cred['amount']"/>
+                                            <span t-esc="cred['amount']"  t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                     </tr>
                                 </t>

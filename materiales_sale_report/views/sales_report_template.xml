@@ -184,8 +184,8 @@
                                                                         <span t-esc="int(down['name'].split('/')[-1])"/>
                                                                     </td>
                                                                     <td class="text-left">
-                                                                        <span t-esc="down['amount_total']"/>
-                                                                        <t t-set="down_total" t-value="down_total + down['amount_total']"  t-options='{"widget": "float", "precision": 2}'/>
+                                                                        <span t-esc="down['amount_total']"  t-options='{"widget": "float", "precision": 2}'/>
+                                                                        <t t-set="down_total" t-value="down_total + down['amount_total']" />
                                                                     </td>
                                                                 </tr>
                                                             </t>

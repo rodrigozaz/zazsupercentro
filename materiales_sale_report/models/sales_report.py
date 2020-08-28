@@ -46,6 +46,9 @@ class ReportAttendanceRecap(models.AbstractModel):
         invoices = self.env['account.move'].search_read([('invoice_date','=',report_date),('warehouse_id','=',location['id']),('type','=','out_invoice')])
         for inv in invoices:
             inv_obj= self.env['account.move'].browse(inv['id'])
+    
+            if not inv['name'] == '/':
+                inv['num'] = int(inv['name'].split('/')[-1])
             inv_widgets = self.env['account.move'].search([('name','=',inv['name'])]).get_widget_detail()
             inv['credit'] = []
             for cred in inv_widgets:
@@ -69,13 +72,13 @@ class ReportAttendanceRecap(models.AbstractModel):
                 inv['down_payment'] = []
                 all_invs= inv_obj.invoice_line_ids.sale_line_ids.mapped("order_id.invoice_ids")
                 for i in all_invs:
-                    print(i.name)
                     if not i.name[0] == 'R' and not i.id == inv_obj.id :
                         inv['down_payment'].append(i)
 
+        invoices.sort(key=lambda i: i['num'])
         last_invoice = 0
         if len(invoices) >= 1:
-            last_invoice = int(invoices[-1]['name'].split('/')[-1]) - 1
+            last_invoice = invoices[0]['num'] - 1
         return {
             'doc_ids': data['ids'],
             'doc_model': data['model'],

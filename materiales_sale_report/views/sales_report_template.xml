@@ -33,7 +33,6 @@
                             <t t-set="credit" t-value="0"/>
                             <t t-set="check" t-value="0"/>
                             <t t-foreach="invoices" t-as="line">
-                                <t t-if="line['down'] == False">
                                     <tr>
                                         <td class="text-left">
                                             <span t-esc="line['num']"/>
@@ -92,7 +91,6 @@
                                         </td> 
                                     </tr>
                                 </t>
-                            </t>
                         </tbody>
                     </table>
 
@@ -142,11 +140,10 @@
                         </div>
                     </div>
 
-                    <!-- Down Payments -->
+                    Down Payments
                     <table class="table table-sm o_main_table" string="Down Payments">
                         <thead>
                             <tr>
-                                <!-- TODO: remove in master -->
                                 <t t-set="colspan" t-value="3"/>
                                 <th name="th_customer" class="text-left"><span>Invoice</span></th>
                                 <th name="th_total" class="text-left"><span>Original Amount</span></th>
@@ -157,7 +154,7 @@
                         <tbody>
                             <t t-set="down_total" t-value="0"/>
                             <t t-foreach="invoices" t-as="line">
-                                <t t-if="line['down'] == False and line['down_payment'] and len(line['down_payment']) >= 1">
+                                <t t-if="line['down'] == True">
                                     <tr>
                                         <td class="text-left">
                                             <span t-esc="int(line['name'].split('/')[-1])"/>
@@ -170,25 +167,22 @@
                                                 <table class="table table-sm o_main_table" style="page-break-inside: avoid;">
                                                     <thead>
                                                         <tr>
-                                                            <!-- TODO: remove in master -->
                                                             <t t-set="colspan" t-value="2"/>
                                                             <th name="th_invoice" class="text-left"><span>Invoice</span></th>
                                                             <th name="th_total" class="text-left"><span>Amount</span></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <t t-foreach="line['down_payment']" t-as="down">
-                                                            <t t-if="not down['state']=='cancel' ">
-                                                                <tr>
-                                                                    <td class="text-left">
-                                                                        <span t-esc="int(down['name'].split('/')[-1])"/>
-                                                                    </td>
-                                                                    <td class="text-left">
-                                                                        <span t-esc="down['amount_total']"  t-options='{"widget": "float", "precision": 2}'/>
-                                                                        <t t-set="down_total" t-value="down_total + down['amount_total']" />
-                                                                    </td>
-                                                                </tr>
-                                                            </t>
+                                                        <t t-foreach="line['bills']" t-as="down">
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <span t-esc="down['ref'].split(' ')[0]"/>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    <span t-esc="down['amount']"  t-options='{"widget": "float", "precision": 2}'/>
+                                                                    <t t-set="down_total" t-value="down_total + down['amount']" />
+                                                                </td>
+                                                            </tr>
                                                         </t>
                                                     </tbody>
                                                 </table>

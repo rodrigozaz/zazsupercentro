@@ -55,13 +55,13 @@ class ReportAttendanceRecap(models.AbstractModel):
 
             inv['down'] = False #will stay a boolean
             inv['down_payment'] = False #will contain the array of down payments
-            print(inv_widgets, '\n\n\n\n')
+
             dates = []
             if len(inv_widgets) > 1:
                 dates.append(inv_widgets[0]['date'])
 
             for cred in inv_widgets:
-                if len(dates) >= 1 and cred['date'] not in dates:
+                if (len(dates) >= 1 and cred['date'] not in dates):
                     inv['down'] = True
 
                 if not cred['ref'][0] == 'R':
@@ -71,20 +71,8 @@ class ReportAttendanceRecap(models.AbstractModel):
                     cred['payment_method'] = False
                     inv['credit'].append(cred)
 
-            
-
-            # if len(inv['invoice_line_ids']) == 1:
-            #     line = self.env['account.move.line'].search([('id','=',inv['invoice_line_ids'][0])])
-            #     if line['product_id']['name'].lower() == "down payment":
-            #         inv['down'] = True 
-
-            
-            # if inv['invoice_origin'] and inv['down'] == False:
-            #     inv['down_payment'] = []
-            #     all_invs= inv_obj.invoice_line_ids.sale_line_ids.mapped("order_id.invoice_ids")
-            #     for i in all_invs:
-            #         if not i.name[0] == 'R' and not i.id == inv_obj.id :
-            #             inv['down_payment'].append(i)
+            if inv_obj.amount_residual < inv_obj.amount_total:
+                inv['down'] = True
 
         invoices.sort(key=lambda i: i['num'])
         last_invoice = 0

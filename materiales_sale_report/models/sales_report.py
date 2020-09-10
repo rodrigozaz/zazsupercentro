@@ -71,7 +71,7 @@ class ReportAttendanceRecap(models.AbstractModel):
                     cred['payment_method'] = False
                     inv['credit'].append(cred)
 
-            if inv_obj.amount_residual < inv_obj.amount_total:
+            if inv_obj.amount_residual < inv_obj.amount_total and inv_obj.amount_residual > 0:
                 inv['down'] = True
 
         invoices.sort(key=lambda i: i['num'])

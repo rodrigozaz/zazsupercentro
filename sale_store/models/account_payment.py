@@ -8,7 +8,7 @@ class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
     def post(self):
-        for payment in self.filtered(lambda p: p.invoce_ids):
+        for payment in self.filtered(lambda p: p.invoice_ids):
             if len(p.invoice_ids.mapped('journal_id')) > 1:
                 raise UserError(_("Can not register payment for invoices having different Journals."))
             journal = p.invoice_ids.mapped('journal_id')

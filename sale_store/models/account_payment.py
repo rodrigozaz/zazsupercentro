@@ -9,9 +9,9 @@ class AccountPayment(models.Model):
 
     def post(self):
         for payment in self.filtered(lambda p: p.invoice_ids):
-            if len(p.invoice_ids.mapped('journal_id')) > 1:
+            if len(payment.invoice_ids.mapped('journal_id')) > 1:
                 raise UserError(_("Can not register payment for invoices having different Journals."))
-            journal = p.invoice_ids.mapped('journal_id')
+            journal = payment.invoice_ids.mapped('journal_id')
             if not payment.name and journal.warehouse_id:
                 seq_field = False
                 if payment.partner_type == 'customer':

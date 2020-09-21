@@ -89,7 +89,7 @@ class ReportAttendanceRecap(models.AbstractModel):
 
             if inv_obj.amount_residual < inv_obj.amount_total and inv_obj.amount_residual > 0:
                 inv['down'] = True
-            if not inv_obj.invoice_date == report_date:
+            if not str(inv_obj.invoice_date) == report_date:
                 inv['down'] =True 
 
         return {

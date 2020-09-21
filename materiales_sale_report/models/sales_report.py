@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
+from datetime import datetime
 
 class WarehouseSales(models.Model):
     _name = 'warehouse.sales'
@@ -44,6 +45,21 @@ class ReportAttendanceRecap(models.AbstractModel):
 
         
         invoices = self.env['account.move'].search_read([('invoice_date','=',report_date),('warehouse_id','=',location['id']),('type','=','out_invoice')])
+
+        invoices.sort(key=lambda i: int(i['name'].split('/')[-1]))
+        last_invoice = 0
+        if len(invoices) >= 1:
+            last_invoice = int(invoices[0]['name'].split('/')[-1]) - 1
+
+        old_payments = self.env['account.payment'].search([('payment_date','=',report_date),('state','not in',['draft','cancelled']), ('partner_type', '=', 'customer')])
+        old_inv_ids = []
+        for payments in old_payments:
+            for inv in payments.invoice_ids:
+                if not str(inv.invoice_date) == report_date and inv.id not in old_inv_ids:
+                    old_inv_ids.append(inv.id)
+                    old_invoice = self.env['account.move'].search_read([('id','=',inv.id)])[0]
+                    invoices.append(old_invoice)
+
         for inv in invoices:
             inv_obj= self.env['account.move'].browse(inv['id'])
     
@@ -73,11 +89,9 @@ class ReportAttendanceRecap(models.AbstractModel):
 
             if inv_obj.amount_residual < inv_obj.amount_total and inv_obj.amount_residual > 0:
                 inv['down'] = True
+            if not inv_obj.invoice_date == report_date:
+                inv['down'] =True 
 
-        invoices.sort(key=lambda i: i['num'])
-        last_invoice = 0
-        if len(invoices) >= 1:
-            last_invoice = invoices[0]['num'] - 1
         return {
             'doc_ids': data['ids'],
             'doc_model': data['model'],

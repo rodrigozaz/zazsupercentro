@@ -7,11 +7,12 @@
             </p>
         </xpath>
         <xpath expr="//table/tbody" position="attributes">
-            <attribute name="style" separator=";" add="font-size:11px"/>
+            <attribute name="style" separator=";" add="font-size:10px"/>
         </xpath>
 
         <td id="product" position="attributes">
-            <attribute name="style" separator=";" add="width:85%"/>
+            <attribute name="style" separator=";" add="width:70%"/>
+            <attribute name="style" separator=";" add="font-size:9px"/>
         </td>
     </template>
 

@@ -11,7 +11,8 @@
         </xpath>
 
         <td id="product" position="attributes">
-            <attribute name="style" separator=";" add="width:85%"/>
+            <attribute name="style" separator=";" add="width:50%"/>
+            <attribute name="style" separator=";" add="font-size:9px"/>
         </td>
     </template>
 

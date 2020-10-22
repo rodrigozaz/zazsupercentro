@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+materiales_detailed_report_manager,materiales detailed report manager,model_detailed_inventory,base.group_system,1,1,1,1
+materiales_detailed_report_user,materiales detailed report users,model_detailed_inventory,base.group_system,1,1,1,1

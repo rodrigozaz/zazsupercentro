@@ -53,7 +53,7 @@ class ReportAttendanceRecap(models.AbstractModel):
                 product['qty_hand'] = prod.qty_available
                 product['reserved'] = prod.qty_available - prod.free_qty
                 product['ordered'] = prod.incoming_qty
-                product['price'] = prod.lst_price
+                product['price'] = prod.standard_price
                 product['forecasted'] = product['qty_hand'] - product['reserved'] + product['ordered']
                 inventory.append(product)
 

@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="view_detailed_report_materiales" model="ir.ui.view">
-        <field name="name">Detailed Inventory Report</field>
+        <field name="name">Reporte de Existencias</field>
         <field name="model">detailed.inventory</field>
         <field name="arch" type="xml">
         <form string="Choose your date">
@@ -27,7 +27,7 @@
         </record>
 
         <record id="action_detailed_report_materiales" model="ir.actions.act_window">
-        <field name="name">Warehouse Detailed Report</field>
+        <field name="name">Reporte de Existencias</field>
         <field name="res_model">detailed.inventory</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_detailed_report_materiales"/>

@@ -9,8 +9,8 @@ class DetailedInventory(models.Model):
 
     user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
     warehouse_ids = fields.Many2many('stock.warehouse', compute="_compute_warehouses")
-    warehouse_id = fields.Many2one('stock.warehouse', translate=True, string='Warehouse',required=True,)    
-    report_date = fields.Date(string= 'Report Date',translate=True, required=True)
+    warehouse_id = fields.Many2one('stock.warehouse', translate=True, string='Sucursal',required=True,)    
+    report_date = fields.Date(string='Fecha',translate=True, required=True)
 
     @api.depends('user_id')
     def _compute_warehouses(self):

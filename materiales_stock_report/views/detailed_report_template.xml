@@ -8,25 +8,25 @@
                 <div class="page" >
                     
                     <div class="oe_structure"/>
-                    <h1 style="text-align:center;">Detailed Inventory report</h1>
+                    <h1 style="text-align:center;">Reporte de Existencias</h1>
                     <div class="text-right">
-                        <span class="col-auto mw-100 mb-2">Warehouse: <strong> <t t-esc="warehouse"/></strong> </span>
-                        <span class="col-auto mw-100 mb-2">Date: <strong> <t t-esc="data['reportdate']"/></strong> </span> 
+                        <span class="col-auto mw-100 mb-2">Sucursal: <strong> <t t-esc="warehouse"/></strong> </span>
+                        <span class="col-auto mw-100 mb-2">Fecha: <strong> <t t-esc="data['reportdate']"/></strong> </span> 
                     </div>
 
                     <table class="table table-sm o_main_table">
                         <thead>
                             <tr>
                                 <t t-set="colspan" t-value="9"/>
-                                <th name="th_name" class="text-center"><span>Product Number</span></th>
-                                <th name="th_customer" class="text-center"><span>Product Name</span></th>
-                                <th name="th_total" class="text-center"><span>UOM</span></th>
-                                <th name="th_status" class="text-center"><span>Quantity on Hand</span></th>
-                                <th name="th_type" class="text-center"><span>Quantity Reserved</span></th>
-                                <th name="th_type" class="text-center"><span>Quantity Ordered</span></th>
-                                <th name="th_type" class="text-center"><span>Forecasted Reserved</span></th>
-                                <th name="th_type" class="text-center"><span>Product Cost</span></th>
-                                <th name="th_type" class="text-center"><span>Inventory Value</span></th>
+                                <th name="th_name" class="text-center"><span>Codigo</span></th>
+                                <th name="th_customer" class="text-center"><span>Producto</span></th>
+                                <th name="th_total" class="text-center"><span>U.M.</span></th>
+                                <th name="th_status" class="text-center"><span>Inventario en Stock</span></th>
+                                <th name="th_type" class="text-center"><span>Comprometido</span></th>
+                                <th name="th_type" class="text-center"><span>Pedido</span></th>
+                                <th name="th_type" class="text-center"><span>Disponible</span></th>
+                                <th name="th_type" class="text-center"><span>Costo</span></th>
+                                <th name="th_type" class="text-center"><span>Valor del Inventario</span></th>
                             </tr>
                         </thead>
                         <tbody>

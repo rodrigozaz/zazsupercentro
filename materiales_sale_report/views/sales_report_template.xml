@@ -13,17 +13,17 @@
                         <span class="col-auto mw-100 mb-2">Warehouse: <strong> <t t-esc="location['name']"/></strong> </span>
                         <span class="col-auto mw-100 mb-2">Date: <strong> <t t-esc="date"/></strong> </span> 
                     </div>
-                    <span>Last Invoice: <span t-esc="last_invoice"/></span>
+                    <span>Ultima Factura del Corte Anterior: <span t-esc="last_invoice"/></span>
 
                     <table class="table table-sm o_main_table" string="Invoices">
                         <thead>
                             <tr>
                                 <t t-set="colspan" t-value="5"/>
-                                <th name="th_name" class="text-left"><span>Invoice Number</span></th>
-                                <th name="th_customer" class="text-left"><span>Customer</span></th>
-                                <th name="th_total" class="text-left"><span>Total</span></th>
+                                <th name="th_name" class="text-left"><span>Factura</span></th>
+                                <th name="th_customer" class="text-left"><span>Cliente</span></th>
+                                <th name="th_total" class="text-left"><span>Importe</span></th>
                                 <th name="th_status" class="text-left"><span>status</span></th>
-                                <th name="th_type" class="text-center"><span>Payment</span></th>
+                                <th name="th_type" class="text-center"><span>Tipo de Pago</span></th>
                             </tr>
                         </thead>
                         <tbody class="invoice_tbody">
@@ -57,7 +57,7 @@
                                                         <t t-foreach="line['bills']" t-as="pay">
                                                             <tr>
                                                                 <td>
-                                                                    <t t-if="pay['payment_method'] and pay['payment_method'][1]">
+                                                                    <t t-if="pay['payment_method']">
                                                                         <t t-if="pay['payment_method'][1] == 'Efectivo'"><span>Efectivo</span><t t-set="cash" t-value="cash + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
                                                                         <t t-if="pay['payment_method'][1] == 'Transferencia electrónica de fondos'"><span>Transferencia</span><t t-set="transfer" t-value="transfer + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
                                                                         <t t-if="pay['payment_method'][1] == 'Tarjeta de Crédito'"><span>TC</span><t t-set="credit" t-value="credit + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
@@ -140,15 +140,15 @@
                         </div>
                     </div>
 
-                    Down Payments
+                    Anticipos
                     <table class="table table-sm o_main_table" string="Down Payments">
                         <thead>
                             <tr>
                                 <t t-set="colspan" t-value="3"/>
-                                <th name="th_customer" class="text-left"><span>Invoice</span></th>
-                                <th name="th_total" class="text-left"><span>Original Amount</span></th>
-                                <th name="th_downpayments" class="text-left"><span>Down Payments</span></th>
-                                <th name="th_total_down" class="text-left"><span>Total Payments</span></th>
+                                <th name="th_customer" class="text-left"><span>Factura a la que se le aplica el anticipo</span></th>
+                                <th name="th_total" class="text-left"><span>Importe original</span></th>
+                                <th name="th_downpayments" class="text-left"><span>Abonos anteriores</span></th>
+                                <th name="th_total_down" class="text-left"><span>Salda al dia</span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -168,8 +168,8 @@
                                                     <thead>
                                                         <tr>
                                                             <t t-set="colspan" t-value="2"/>
-                                                            <th name="th_invoice" class="text-left"><span>Invoice</span></th>
-                                                            <th name="th_total" class="text-left"><span>Amount</span></th>
+                                                            <th name="th_invoice" class="text-left"><span>Folio</span></th>
+                                                            <th name="th_total" class="text-left"><span>Importe</span></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -190,13 +190,13 @@
                                             <div class="col-3">
                                                 <table class="table table-sm" style="page-break-inside: avoid;">
                                                     <tr class="o_down_total">
-                                                        <td><strong>Total Downpayments:</strong></td>
+                                                        <td><strong>Abonos anteriores:</strong></td>
                                                         <td class="text-right">
                                                             <span class="text-nowrap" t-esc="down_total"  t-options='{"widget": "float", "precision": 2}'/>
                                                         </td>
                                                     </tr>
                                                     <tr class="o_total">
-                                                        <td><strong>Total:</strong></td>
+                                                        <td><strong>Saldo al dia:</strong></td>
                                                         <td class="text-right">
                                                             <span class="text-nowrap" t-esc="line['amount_total'] - down_total"  t-options='{"widget": "float", "precision": 2}'/>
                                                         </td>
@@ -206,38 +206,6 @@
                                         </td>
                                         <td class="text-left">
                                             <span class="text-nowrap" t-esc="down_total" t-options='{"widget": "float", "precision": 2}'/>
-                                        </td>
-                                    </tr>
-                                </t>
-                            </t>
-                        </tbody>
-                    </table>
-
-
-
-                    <!-- Credit notes -->
-                    <table class="table table-sm o_main_table" string="Credit Invoices">
-                        <thead>
-                            <tr>
-                                <!-- TODO: remove in master -->
-                                <t t-set="colspan" t-value="3"/>
-                                <th name="th_name" class="text-left"><span>Customer</span></th>
-                                <th name="th_customer" class="text-left"><span>Invoice Number</span></th>
-                                <th name="th_total" class="text-left"><span>Amount</span></th>
-                            </tr>
-                        </thead>
-                        <tbody class="invoice_tbody">
-                            <t t-foreach="invoices" t-as="line">
-                                <t t-foreach="line['credit']" t-as="cred">
-                                    <tr>
-                                        <td class="text-left">
-                                            <span t-esc="line['partner_id'][1]"/>
-                                        </td>
-                                        <td class="text-left">
-                                            <span t-esc="cred['ref'].split(' (')[0]"/>
-                                        </td>
-                                        <td class="text-left">
-                                            <span t-esc="cred['amount']"  t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                     </tr>
                                 </t>

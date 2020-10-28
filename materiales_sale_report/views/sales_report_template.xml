@@ -10,8 +10,8 @@
 
                     <h1 style="text-align:center;">Corte de Caja</h1>
                     <div class="text-right">
-                        <span class="col-auto mw-100 mb-2">Warehouse: <strong> <t t-esc="location['name']"/></strong> </span>
-                        <span class="col-auto mw-100 mb-2">Date: <strong> <t t-esc="date"/></strong> </span> 
+                        <span class="col-auto mw-100 mb-2">Sucursal: <strong> <t t-esc="location['name']"/></strong> </span>
+                        <span class="col-auto mw-100 mb-2">Fecha: <strong> <t t-esc="date"/></strong> </span> 
                     </div>
                     <span>Ultima Factura del Corte Anterior: <span t-esc="last_invoice"/></span>
 
@@ -22,7 +22,7 @@
                                 <th name="th_name" class="text-left"><span>Factura</span></th>
                                 <th name="th_customer" class="text-left"><span>Cliente</span></th>
                                 <th name="th_total" class="text-left"><span>Importe</span></th>
-                                <th name="th_status" class="text-left"><span>status</span></th>
+                                <th name="th_status" class="text-left"><span>Estado</span></th>
                                 <th name="th_type" class="text-center"><span>Tipo de Pago</span></th>
                             </tr>
                         </thead>
@@ -44,10 +44,10 @@
                                             <span t-esc="line['amount_total']"  t-options='{"precision": 2, "widget": "float"}'/>
                                         </td>
                                         <td class="text-left">
-                                            <t t-if="line['invoice_payment_state'] == 'not_paid' and len(line['bills']) >= 1">Partially Paid</t>
-                                            <t t-elif="line['state'] == 'cancel'">Cancelled</t>
-                                            <t t-elif="line['invoice_payment_state'] == 'not_paid'">Open</t>
-                                            <t t-else=""><span t-esc="line['invoice_payment_state']"/></t>
+                                            <t t-if="line['invoice_payment_state'] == 'not_paid' and len(line['bills']) >= 1">Anticipo</t>
+                                            <t t-elif="line['state'] == 'cancel'">Cancelado</t>
+                                            <t t-elif="line['invoice_payment_state'] == 'not_paid'"></t>
+                                            <t t-else="">Pagado</t>
                                         </td>
                                         <td class="text-left">
                                             <t t-if="len(line['bills']) >= 1 ">
@@ -65,7 +65,7 @@
 
                                                                     </t>
                                                                     <t t-else="">
-                                                                    <span>Credit Note</span>
+                                                                    <span>Nota de Credito</span>
                                                                     </t>
                                                                 </td>
                                                                 <t t-if="pay['ref'][0]=='R'"> 

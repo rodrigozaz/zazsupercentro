@@ -9,8 +9,8 @@ class WarehouseSales(models.Model):
 
     user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
     warehouse_ids = fields.Many2many('stock.warehouse', compute="_compute_warehouses")
-    warehouse_id = fields.Many2one('stock.warehouse', string= 'Warehouse',required=True,)    
-    report_date = fields.Date(string= 'Sales Date',required=True)
+    warehouse_id = fields.Many2one('stock.warehouse', string= 'Sucursal',required=True,)    
+    report_date = fields.Date(string= 'Fecha de Reporte',required=True)
 
     @api.depends('user_id')
     def _compute_warehouses(self):
@@ -79,8 +79,8 @@ class ReportAttendanceRecap(models.AbstractModel):
             for cred in inv_widgets:
                 if (len(dates) >= 1 and cred['date'] not in dates):
                     inv['down'] = True
-
-                if not cred['ref'][0] == 'R':
+                print(dict(cred), '\n\n\n')
+                if cred['account_payment_id']:
                     account = self.env['account.payment'].search([('id','=',cred['account_payment_id'])])
                     cred['payment_method'] = [account.details, account.l10n_mx_edi_payment_method_id.name]
                 else: 

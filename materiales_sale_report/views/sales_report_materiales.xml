@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="view_warehouse_sales_materiales" model="ir.ui.view">
-        <field name="name">Warehouse Sales</field>
+        <field name="name">Corte de Caja</field>
         <field name="model">warehouse.sales</field>
         <field name="arch" type="xml">
         <form string="Choose your date">
@@ -27,7 +27,7 @@
         </record>
 
         <record id="action_warehouse_sales_materiales" model="ir.actions.act_window">
-        <field name="name">Warehouse Sales</field>
+        <field name="name">Corte de Caja</field>
         <field name="res_model">warehouse.sales</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_warehouse_sales_materiales"/>

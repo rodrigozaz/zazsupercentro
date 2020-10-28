@@ -37,7 +37,7 @@
                                         <span t-esc="stock.picking_id.name"/>
                                     </td>
                                     <td class="text-center">
-                                        <span t-esc="stock.quantity_done"/>
+                                        <span t-esc="int(stock.quantity_done)"/>
                                     </td>
                                     <td class="text-center">
                                         <t t-if="stock.sale_line_id">
@@ -50,11 +50,11 @@
                                     <td class="text-center">
                                         <t t-if="stock.picking_code == 'incoming'">
                                             <t t-set="total" t-value="total + stock.quantity_done"/>
-                                            <t t-esc="total"/>
+                                            <t t-esc="int(total)"/>
                                         </t>
                                         <t t-if="stock.picking_code == 'outgoing'">
                                             <t t-set="total" t-value="total - stock.quantity_done"/>
-                                            <t t-esc="total"/>
+                                            <t t-esc="int(total)"/>
                                         </t>
                                     </td>
                                     <td class="text-center">

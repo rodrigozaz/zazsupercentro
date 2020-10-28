@@ -11,8 +11,8 @@ class ProductInventory(models.Model):
     warehouse_ids = fields.Many2many('stock.warehouse', compute="_compute_warehouses")
     warehouse_id = fields.Many2one('stock.warehouse', string='Sucursal',required=True,)
     product_id = fields.Many2one('product.product', string="Producto", required=True)   
-    start_date = fields.Date(string='Start Date',required=True)
-    end_date = fields.Date(string='End Date',required=True)
+    start_date = fields.Date(string='Fecha inicial',required=True)
+    end_date = fields.Date(string='Fecha Final',required=True)
 
     @api.depends('user_id')
     def _compute_warehouses(self):

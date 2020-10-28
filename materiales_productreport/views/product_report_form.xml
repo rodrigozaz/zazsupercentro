@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="view_product_report_materiales" model="ir.ui.view">
-            <field name="name">Product Inventory</field>
+            <field name="name">Kardex de Producto</field>
             <field name="model">product.inventory</field>
             <field name="arch" type="xml">
             <form string="Choose your date">
@@ -29,7 +29,7 @@
         </record>
 
         <record id="action_product_report_materiales" model="ir.actions.act_window">
-        <field name="name">Product Inventory</field>
+        <field name="name">Kardex de Producto</field>
         <field name="res_model">product.inventory</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_product_report_materiales"/>

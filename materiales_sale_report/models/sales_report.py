@@ -79,10 +79,10 @@ class ReportAttendanceRecap(models.AbstractModel):
             for cred in inv_widgets:
                 if (len(dates) >= 1 and cred['date'] not in dates):
                     inv['down'] = True
-                print(dict(cred), '\n\n\n')
                 if cred['account_payment_id']:
                     account = self.env['account.payment'].search([('id','=',cred['account_payment_id'])])
                     cred['payment_method'] = [account.details, account.l10n_mx_edi_payment_method_id.name]
+                    cred['record_name'] = account.name
                 else: 
                     cred['payment_method'] = False
                     inv['credit'].append(cred)

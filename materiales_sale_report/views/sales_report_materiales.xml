@@ -38,7 +38,7 @@
             id="menu_action_warehouse_sales_materiales" 
             action="action_warehouse_sales_materiales" 
             parent="account.menu_finance_reports" 
-            sequence="1"        
+            sequence="0"        
         />
     </data>
 </odoo>

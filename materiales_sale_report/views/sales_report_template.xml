@@ -176,7 +176,7 @@
                                                         <t t-foreach="line['bills']" t-as="down">
                                                             <tr>
                                                                 <td class="text-left">
-                                                                    <span t-esc="down['ref'].split(' ')[0]"/>
+                                                                    <span t-esc="down['record_name']"/>
                                                                 </td>
                                                                 <td class="text-left">
                                                                     <span t-esc="down['amount']"  t-options='{"widget": "float", "precision": 2}'/>

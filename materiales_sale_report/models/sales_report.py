@@ -83,7 +83,8 @@ class ReportAttendanceRecap(models.AbstractModel):
                     account = self.env['account.payment'].search([('id','=',cred['account_payment_id'])])
                     cred['payment_method'] = [account.details, account.l10n_mx_edi_payment_method_id.name]
                     cred['record_name'] = account.name
-                else: 
+                else:
+                    cred['record_name'] = cred['ref'].split(' ')[0] 
                     cred['payment_method'] = False
                     inv['credit'].append(cred)
 

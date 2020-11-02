@@ -6,6 +6,12 @@
             <field name="model">report.materiales_stock_report.detailed_report</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">materiales_stock_report.detailed_report</field>
-        </record>       
+        </record>
+
+        <template id="assets_backend" name="xls_assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/materiales_stock_report/static/src/js/inventory_excel.js"/>
+            </xpath>
+        </template>    
     </data>
 </odoo>

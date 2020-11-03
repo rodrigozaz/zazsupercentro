@@ -23,11 +23,13 @@
                                 <th name="th_status" class="text-center"><span>Cantidad</span></th>
                                 <th name="th_type" class="text-center"><span>Costo</span></th>
                                 <th name="th_type" class="text-center"><span>Saldo</span></th>
+                                <th name="th_type" class="text-center"><span>Valor del Inventario</span></th>
                                 <th name="th_type" class="text-center"><span>Comentarios</span></th>
                             </tr>
                         </thead>
                         <tbody>
                             <t t-set="total" t-value="0"/>
+                            <t t-set="total_value" t-value="0"/>
                             <t t-foreach="stocks" t-as="stock">
                                 <tr>
                                     <td class="text-center">
@@ -41,7 +43,7 @@
                                     </td>
                                     <td class="text-center">
                                         <t t-if="stock.sale_line_id">
-                                            <span t-esc="stock.sale_line_id.price_unit"  t-options='{"precision": 2, "widget": "float"}'/>
+                                            <span t-esc="stock.stock_valuation_layer_ids[0].unit_cost"  t-options='{"precision": 2, "widget": "float"}'/>
                                         </t>
                                         <t t-else="">
                                             <span t-esc="stock.price_unit"  t-options='{"precision": 2, "widget": "float"}'/>
@@ -57,6 +59,18 @@
                                             <t t-esc="int(total)"/>
                                         </t>
                                     </td>
+                                    <td class="text-center">
+                                        <t t-if="stock.sale_line_id">
+                                            <!-- <span t-esc="stock.sale_line_id.price_unit * stock.quantity_done"  t-options='{"precision": 2, "widget": "float"}'/> -->
+                                            <t t-set="total_value" t-value="total_value + stock.stock_valuation_layer_ids[0].value"/>
+                                            <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="total_value" t-value="total_value + (stock.price_unit * stock.quantity_done)"/>
+                                            <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                    </td>
+
                                     <td class="text-center">
                                         Basado en <span t-esc="stock.origin"/>
                                     </td>

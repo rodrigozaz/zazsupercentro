@@ -69,7 +69,7 @@ class ProductInventory(models.Model):
             if stock.sale_line_id:
                 cost = stock.stock_valuation_layer_ids[0].unit_cost
             else:
-                cost = stock.price_unit
+                cost = stock.purchase_line_id.price_unit
 
             if stock.picking_code == 'incoming':
                 total += stock.quantity_done

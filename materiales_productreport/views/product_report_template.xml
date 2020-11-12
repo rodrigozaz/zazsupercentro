@@ -46,7 +46,7 @@
                                             <span t-esc="stock.stock_valuation_layer_ids[0].unit_cost"  t-options='{"precision": 2, "widget": "float"}'/>
                                         </t>
                                         <t t-else="">
-                                            <span t-esc="stock.price_unit"  t-options='{"precision": 2, "widget": "float"}'/>
+                                            <span t-esc="stock.purchase_line_id.price_unit"  t-options='{"precision": 2, "widget": "float"}'/>
                                         </t>
                                     </td>
                                     <td class="text-center">

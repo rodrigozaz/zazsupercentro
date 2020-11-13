@@ -18,45 +18,45 @@
                         <thead>
                             <tr>
                                 <t t-set="colspan" t-value="9"/>
-                                <th name="th_name" class="text-center"><span>Codigo</span></th>
-                                <th name="th_customer" class="text-center"><span>Producto</span></th>
-                                <th name="th_total" class="text-center"><span>U.M.</span></th>
-                                <th name="th_status" class="text-center"><span>Inventario en Stock</span></th>
-                                <th name="th_type" class="text-center"><span>Comprometido</span></th>
-                                <th name="th_type" class="text-center"><span>Pedido</span></th>
-                                <th name="th_type" class="text-center"><span>Disponible</span></th>
-                                <th name="th_type" class="text-center"><span>Costo</span></th>
-                                <th name="th_type" class="text-center"><span>Valor del Inventario</span></th>
+                                <th name="th_name" class="text-center"><span style="font-size:12px;">Codigo</span></th>
+                                <th name="th_customer" class="text-center"><span style="font-size:12px;">Producto</span></th>
+                                <th name="th_total" class="text-center"><span style="font-size:12px;">U.M.</span></th>
+                                <th name="th_status" class="text-center"><span style="font-size:12px;">Inventario en Stock</span></th>
+                                <th name="th_type" class="text-center"><span style="font-size:12px;">Comprometido</span></th>
+                                <th name="th_type" class="text-center"><span style="font-size:12px;">Pedido</span></th>
+                                <th name="th_type" class="text-center"><span style="font-size:12px;">Disponible</span></th>
+                                <th name="th_type" class="text-center"><span style="font-size:12px;">Costo</span></th>
+                                <th name="th_type" class="text-center"><span style="font-size:12px;">Valor del Inventario</span></th>
                             </tr>
                         </thead>
                         <tbody>
                             <t t-foreach="products" t-as="product">
                                 <tr>
-                                    <td class="text-center">
+                                    <td class="text-center" style="font-size:9px; width:20%;">
                                         <span t-esc="product['code']"/>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center" style="font-size:9px; width:80%;">
                                         <span t-esc="product['product']"/>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center" style="font-size:12px">
                                         <span t-esc="product['uom']"/>
                                     </td>
-                                    <td class="text-center">
-                                        <span t-esc="product['qty_hand']"/>
+                                    <td class="text-center" style="width:5px; font-size:12px">
+                                        <span t-esc="int(product['qty_hand'])"/>
                                     </td>
-                                    <td class="text-center">
-                                        <span t-esc="product['reserved']"/>
+                                    <td class="text-center" style="width:5px; font-size:12px">
+                                        <span t-esc="int(product['reserved'])"/>
                                     </td>
-                                    <td class="text-center">
-                                        <span t-esc="product['ordered']"/>
+                                    <td class="text-center" style="width:5px; font-size:12px">
+                                        <span t-esc="int(product['ordered'])"/>
                                     </td>
-                                    <td class="text-center">
-                                        <span t-esc="product['forecasted']"/>
+                                    <td class="text-center" style="width:5px; font-size:12px">
+                                        <span t-esc="int(product['forecasted'])"/>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center" style="font-size:12px">
                                         <span t-esc="product['price']" t-options='{"precision": 2, "widget": "float"}'/>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center" style="font-size:12px">
                                         <span t-esc="product['price'] * product['qty_hand']" t-options='{"precision": 2, "widget": "float"}'/>
                                     </td>
                                 </tr>

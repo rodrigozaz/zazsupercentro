@@ -137,13 +137,14 @@ class ReportAttendanceRecap(models.AbstractModel):
     def _get_report_values(self, docids, data=None):
         warehouse = self.env['stock.warehouse'].search([('id','=',data['form']['warehouse'])])
         to_date = datetime.datetime.strptime(data['form']['reportdate'], '%Y-%m-%d') + datetime.timedelta(days=2)
+        from_date = datetime.datetime.strptime(data['form']['reportdate'], '%Y-%m-%d') + datetime.timedelta(days=1)
         try:
             self.env['product.product'].invalid_cache()
         except:
             pass
-        
+        from_date = datetime.datetime.strftime(from_date, '%Y-%m-%d')
         to_date = datetime.datetime.strftime(to_date, '%Y-%m-%d')
-        products = self.env['product.product'].search([]).with_context({'from_date': data['form']['reportdate'], 'to_date': to_date, 'warehouse': warehouse.id})
+        products = self.env['product.product'].search([]).with_context({'from_date': from_date, 'to_date': to_date, 'warehouse': warehouse.id})
         
         inventory = []
         for prod in products:

@@ -57,7 +57,7 @@
                                         <span t-esc="product['price']" t-options='{"precision": 2, "widget": "float"}'/>
                                     </td>
                                     <td class="text-center" style="font-size:12px">
-                                        <span t-esc="product['price'] * product['qty_hand']" t-options='{"precision": 2, "widget": "float"}'/>
+                                        <span t-esc="product['total_price']" t-options='{"precision": 2, "widget": "float"}'/>
                                     </td>
                                 </tr>
                             </t>

@@ -65,6 +65,20 @@ class DetailedInventory(models.Model):
 
         for prod in products:
             if prod.qty_available > 0:
+                company_id = self.env.context.get('force_company', self.env.company.id)
+                domain = [
+                    ('product_id', '=', prod.id),
+                    ('company_id', '=', company_id),
+                    ('create_date', '<=', to_date),
+                    '|',
+                    ('stock_move_id.location_id','=', warehouse.lot_stock_id.id),
+                    ('stock_move_id.location_dest_id','=', warehouse.lot_stock_id.id),
+                ]
+
+                groups = self.env['stock.valuation.layer'].with_context({'warehouse': warehouse.id}).read_group(domain, ['value:sum', 'quantity:sum'], ['product_id'])
+                total = 0
+                for group in groups:
+                    total = self.env.company.currency_id.round(group['value'])
                 product = {
                     'product': prod.name,
                     'code': prod.default_code,
@@ -74,7 +88,7 @@ class DetailedInventory(models.Model):
                     'ordered': prod.incoming_qty,
                     'price': prod.standard_price,
                     'forecasted': prod.incoming_qty + prod.free_qty,
-                    'value': prod.standard_price * prod.qty_available
+                    'value': total
                 }
                 lines.append(product)
         return lines
@@ -137,18 +151,38 @@ class ReportAttendanceRecap(models.AbstractModel):
     def _get_report_values(self, docids, data=None):
         warehouse = self.env['stock.warehouse'].search([('id','=',data['form']['warehouse'])])
         to_date = datetime.datetime.strptime(data['form']['reportdate'], '%Y-%m-%d') + datetime.timedelta(days=2)
-        from_date = datetime.datetime.strptime(data['form']['reportdate'], '%Y-%m-%d') + datetime.timedelta(days=1)
+        from_date = datetime.datetime.strptime(data['form']['reportdate'], '%Y-%m-%d') + datetime.timedelta(days=0)
         try:
             self.env['product.product'].invalid_cache()
         except:
             pass
         from_date = datetime.datetime.strftime(from_date, '%Y-%m-%d')
         to_date = datetime.datetime.strftime(to_date, '%Y-%m-%d')
-        products = self.env['product.product'].search([]).with_context({'from_date': from_date, 'to_date': to_date, 'warehouse': warehouse.id})
+        products = self.env['product.product'].search([]).with_context({'to_date': to_date, 'warehouse': warehouse.id})
         
         inventory = []
         for prod in products:
+
             if prod.qty_available > 0:
+                # print(prod.stock_valuation_layer_ids[-1].remaining_value,prod.stock_valuation_layer_ids[-1].value,'\n\n\n') #stock.valuation.layer
+                company_id = self.env.context.get('force_company', self.env.company.id)
+                domain = [
+                    ('product_id', '=', prod.id),
+                    ('company_id', '=', company_id),
+                    ('create_date', '<=', to_date),
+                    '|',
+                    ('stock_move_id.location_id','=', warehouse.lot_stock_id.id),
+                    ('stock_move_id.location_dest_id','=', warehouse.lot_stock_id.id),
+                ]
+
+                groups = self.env['stock.valuation.layer'].with_context({'warehouse': warehouse.id}).read_group(domain, ['value:sum', 'quantity:sum'], ['product_id'])
+                total = 0
+                for group in groups:
+                    total = self.env.company.currency_id.round(group['value'])
+                print(total,'\n\n\n')
+
+
+                # print(prod.value_svl,'\n\n\n')
                 product = {}
                 product['product'] = prod.name
                 product['code'] = prod.default_code
@@ -157,6 +191,7 @@ class ReportAttendanceRecap(models.AbstractModel):
                 product['reserved'] = prod.qty_available - prod.free_qty
                 product['ordered'] = prod.incoming_qty
                 product['price'] = prod.standard_price
+                product['total_price'] = total
                 product['forecasted'] = product['qty_hand'] - product['reserved'] + product['ordered']
                 inventory.append(product)
 

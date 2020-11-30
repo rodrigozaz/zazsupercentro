@@ -61,7 +61,7 @@ class ProductInventory(models.Model):
     def get_lines(self, data, warehouse,product):
 
         lines = []
-        stocks = self.env['stock.move'].search([('picking_type_id.code','in',['incoming','outgoing']),('state', 'in', ['done']),('warehouse_id','=',warehouse.id),('product_id','=',product.id),('date','>=',data['start_date']),('date','<=',data['end_date'])])
+        stocks = self.env['stock.move'].search([('picking_type_id.code','in',['incoming','outgoing']),('state', 'in', ['done']),('warehouse_id','=',warehouse.id),('product_id','=',product.id),('date','>=',data['start_date']),('date','<=',data['end_date'])], order="date ASC")
         total = 0
         total_val = 0
         for stock in stocks:
@@ -149,7 +149,7 @@ class ReportAttendanceRecap(models.AbstractModel):
         warehouse = self.env['stock.warehouse'].search([('id','=',location_id)])
         product = self.env['product.product'].search([('id','=', product_id)]).with_context({'warehouse': warehouse.id})
 
-        stocks = self.env['stock.move'].search([('picking_type_id.code','in',['incoming','outgoing']),('state', 'in', ['done']),('warehouse_id','=',warehouse.id),('product_id','=',product.id),('date','>=',start_date),('date','<=',end_date)])
+        stocks = self.env['stock.move'].search([('picking_type_id.code','in',['incoming','outgoing']),('state', 'in', ['done']),('warehouse_id','=',warehouse.id),('product_id','=',product.id),('date','>=',start_date),('date','<=',end_date)],order="date ASC")
 
         print(stocks)
         return {

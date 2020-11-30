@@ -75,10 +75,27 @@ class DetailedInventory(models.Model):
                     ('stock_move_id.location_dest_id','=', warehouse.lot_stock_id.id),
                 ]
 
-                groups = self.env['stock.valuation.layer'].with_context({'warehouse': warehouse.id}).read_group(domain, ['value:sum', 'quantity:sum'], ['product_id'])
+                price_domain = [
+                    ('product_id','=', prod.id),
+                    ('qty_received','>',0),
+                    ('company_id', '=', company_id),
+                    ('order_id.warehouse_id','=',warehouse.id)
+                ]
+
+
+                groups = self.env['stock.valuation.layer'].with_context({'warehouse': warehouse.id}).read_group(domain, ['unit_cost','value:sum', 'quantity:sum'], ['product_id'])
+                price = self.env['purchase.order.line'].with_context({'warehouse': warehouse.id}).search_read(price_domain,limit=1)
+                
+                unit_cost = 0
+                if len(price) > 0:
+                    unit_cost = price[0]['price_unit']
+                else:
+                    unit_cost = prod.standard_price
+
                 total = 0
                 for group in groups:
                     total = self.env.company.currency_id.round(group['value'])
+
                 product = {
                     'product': prod.name,
                     'code': prod.default_code,
@@ -86,7 +103,7 @@ class DetailedInventory(models.Model):
                     'qty_hand': prod.qty_available,
                     'reserved': prod.qty_available - prod.free_qty,
                     'ordered': prod.incoming_qty,
-                    'price': prod.standard_price,
+                    'price': unit_cost,
                     'forecasted': prod.incoming_qty + prod.free_qty,
                     'value': total
                 }
@@ -164,7 +181,6 @@ class ReportAttendanceRecap(models.AbstractModel):
         for prod in products:
 
             if prod.qty_available > 0 or prod.incoming_qty > 0:
-                # print(prod.stock_valuation_layer_ids[-1].remaining_value,prod.stock_valuation_layer_ids[-1].value,'\n\n\n') #stock.valuation.layer
                 company_id = self.env.context.get('force_company', self.env.company.id)
                 domain = [
                     ('product_id', '=', prod.id),
@@ -175,13 +191,27 @@ class ReportAttendanceRecap(models.AbstractModel):
                     ('stock_move_id.location_dest_id','=', warehouse.lot_stock_id.id),
                 ]
 
-                groups = self.env['stock.valuation.layer'].with_context({'warehouse': warehouse.id}).read_group(domain, ['value:sum', 'quantity:sum'], ['product_id'])
+                price_domain = [
+                    ('product_id','=', prod.id),
+                    ('qty_received','>',0),
+                    ('company_id', '=', company_id),
+                    ('order_id.warehouse_id','=',warehouse.id)
+                ]
+
+                groups = self.env['stock.valuation.layer'].with_context({'warehouse': warehouse.id}).read_group(domain, ['unit_cost','value:sum', 'quantity:sum'], ['product_id'])
+                price = self.env['purchase.order.line'].with_context({'warehouse': warehouse.id}).search_read(price_domain,limit=1)
+                
+                unit_cost = 0
+                if len(price) > 0:
+                    unit_cost = price[0]['price_unit']
+                else:
+                    unit_cost = prod.standard_price
+
                 total = 0
                 for group in groups:
                     total = self.env.company.currency_id.round(group['value'])
 
 
-                # print(prod.value_svl,'\n\n\n')
                 product = {}
                 product['product'] = prod.name
                 product['code'] = prod.default_code
@@ -189,7 +219,7 @@ class ReportAttendanceRecap(models.AbstractModel):
                 product['qty_hand'] = prod.qty_available
                 product['reserved'] = prod.qty_available - prod.free_qty
                 product['ordered'] = prod.incoming_qty
-                product['price'] = prod.standard_price
+                product['price'] = unit_cost
                 product['total_price'] = total
                 product['forecasted'] = product['qty_hand'] - product['reserved'] + product['ordered']
                 inventory.append(product)
@@ -201,5 +231,3 @@ class ReportAttendanceRecap(models.AbstractModel):
             'warehouse':warehouse[0]['display_name'],
             'products': inventory
         }
-# lot_stock_id
-# .with_context({'date': data['form']['warehouse']})

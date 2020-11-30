@@ -64,7 +64,7 @@ class DetailedInventory(models.Model):
         lines = []
 
         for prod in products:
-            if prod.qty_available > 0:
+            if prod.qty_available > 0 or prod.incoming_qty > 0:
                 company_id = self.env.context.get('force_company', self.env.company.id)
                 domain = [
                     ('product_id', '=', prod.id),
@@ -163,7 +163,7 @@ class ReportAttendanceRecap(models.AbstractModel):
         inventory = []
         for prod in products:
 
-            if prod.qty_available > 0:
+            if prod.qty_available > 0 or prod.incoming_qty > 0:
                 # print(prod.stock_valuation_layer_ids[-1].remaining_value,prod.stock_valuation_layer_ids[-1].value,'\n\n\n') #stock.valuation.layer
                 company_id = self.env.context.get('force_company', self.env.company.id)
                 domain = [
@@ -179,7 +179,6 @@ class ReportAttendanceRecap(models.AbstractModel):
                 total = 0
                 for group in groups:
                     total = self.env.company.currency_id.round(group['value'])
-                print(total,'\n\n\n')
 
 
                 # print(prod.value_svl,'\n\n\n')

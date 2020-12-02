@@ -7,5 +7,5 @@ class Payment(models.Model):
 
     def get_widget_detail(self):
         
-        return self[-1]._get_reconciled_info_JSON_values()
+        return self._get_reconciled_info_JSON_values()
 

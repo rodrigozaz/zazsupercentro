@@ -6,5 +6,6 @@ class Payment(models.Model):
     _inherit = 'account.move'
 
     def get_widget_detail(self):
-        return self._get_reconciled_info_JSON_values()
+        
+        return self[-1]._get_reconciled_info_JSON_values()
 

@@ -54,8 +54,9 @@ class ReportAttendanceRecap(models.AbstractModel):
         old_payments = self.env['account.payment'].search([('payment_date','=',report_date),('state','not in',['draft','cancelled']), ('partner_type', '=', 'customer')])
         old_inv_ids = []
         for payments in old_payments:
+            
             for inv in payments.invoice_ids:
-                if not str(inv.invoice_date) == report_date and inv.id not in old_inv_ids:
+                if inv.warehouse_id == location['id'] and ((not str(inv.invoice_date) == report_date and inv.id not in old_inv_ids) or inv.type == 'out_refund'):
                     old_inv_ids.append(inv.id)
                     old_invoice = self.env['account.move'].search_read([('id','=',inv.id)])[0]
                     invoices.append(old_invoice)

@@ -57,12 +57,17 @@
                                                         <t t-foreach="line['bills']" t-as="pay">
                                                             <tr>
                                                                 <td>
-                                                                    <t t-if="pay['payment_method']">
+                                                                    <t t-if="pay['payment_method'] and line['type'] == 'out_invoice'">
                                                                         <t t-if="pay['payment_method'][1] == 'Efectivo'"><span>Efectivo</span><t t-set="cash" t-value="cash + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
                                                                         <t t-if="pay['payment_method'][1] == 'Transferencia electrónica de fondos'"><span>Transferencia</span><t t-set="transfer" t-value="transfer + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
                                                                         <t t-if="pay['payment_method'][1] == 'Tarjeta de Crédito'"><span>TC</span><t t-set="credit" t-value="credit + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
                                                                         <t t-if="pay['payment_method'][1] == 'Cheque nominativo'"><span>Cheque</span><t t-set="check" t-value="check + pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
-
+                                                                    </t>
+                                                                    <t t-elif="pay['payment_method'] and line['type'] == 'out_refund'">
+                                                                        <t t-if="pay['payment_method'][1] == 'Efectivo'"><span>Efectivo</span><t t-set="cash" t-value="cash - pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
+                                                                        <t t-if="pay['payment_method'][1] == 'Transferencia electrónica de fondos'"><span>Transferencia</span><t t-set="transfer" t-value="transfer - pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
+                                                                        <t t-if="pay['payment_method'][1] == 'Tarjeta de Crédito'"><span>TC</span><t t-set="credit" t-value="credit - pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
+                                                                        <t t-if="pay['payment_method'][1] == 'Cheque nominativo'"><span>Cheque</span><t t-set="check" t-value="check - pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></t>
                                                                     </t>
                                                                     <t t-else="">
                                                                     <span>Nota de Credito</span>
@@ -74,8 +79,16 @@
                                                                 </t>
                                                                 <t t-else="">
                                                                     <td><t t-if="pay['payment_method']"><span t-esc="pay['payment_method'][0]"/></t></td> 
-                                                                    <td><span t-esc="pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></td>
-                                                                    <t t-set="total" t-value="total + pay['amount']" />
+                                                                    <td>
+                                                                        <t t-if="line['type'] == 'out_invoice'"><span t-esc="pay['amount']"  t-options='{"widget": "float", "precision": 2}'/>
+                                                                            <t t-set="total" t-value="total + pay['amount']" />
+                                                                        </t>
+                                                                        <t t-else=""><span t-esc="-1 * pay['amount']"  t-options='{"widget": "float", "precision": 2}'/>
+                                                                            <t t-set="total" t-value="total - pay['amount']" />
+                                                                        </t>
+                                                                    
+                                                                    </td>
+                                                                    
                                                                 </t>
                                                             </tr>
                                                         </t>
@@ -152,9 +165,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-set="down_total" t-value="0"/>
+                            
                             <t t-foreach="invoices" t-as="line">
                                 <t t-if="line['down'] == True">
+                                <t t-set="down_total" t-value="0"/>
                                     <tr>
                                         <td class="text-left">
                                             <span t-esc="int(line['name'].split('/')[-1])"/>
@@ -217,3 +231,4 @@
         </t>
     </template>
 </odoo>
+

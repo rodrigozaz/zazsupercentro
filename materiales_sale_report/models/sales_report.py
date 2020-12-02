@@ -66,7 +66,7 @@ class ReportAttendanceRecap(models.AbstractModel):
     
             if not inv['name'] == '/':
                 inv['num'] = int(inv['name'].split('/')[-1])
-            inv_widgets = self.env['account.move'].search([('name','=',inv['name'])]).get_widget_detail()
+            inv_widgets = self.env['account.move'].search([('id','=',inv_obj.id)]).get_widget_detail()
             inv['credit'] = [] #contains the credit
             inv['bills'] = inv_widgets #contains all payments
 

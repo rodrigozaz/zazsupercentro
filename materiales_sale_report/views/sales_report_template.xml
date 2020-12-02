@@ -41,7 +41,13 @@
                                             <span t-esc="line['partner_id'][1]"/>
                                         </td>
                                         <td class="text-left">
-                                            <span t-esc="line['amount_total']"  t-options='{"precision": 2, "widget": "float"}'/>
+                                            <!-- <span t-esc="line['amount_total']"  t-options='{"precision": 2, "widget": "float"}'/> -->
+                                            <t t-if="line['type'] == 'out_invoice'">
+                                                <span t-esc="line['amount_total']"  t-options='{"precision": 2, "widget": "float"}'/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="-1 * line['amount_total']"  t-options='{"precision": 2, "widget": "float"}'/>
+                                            </t>
                                         </td>
                                         <td class="text-left">
                                             <t t-if="line['invoice_payment_state'] == 'not_paid' and len(line['bills']) >= 1">Anticipo</t>
@@ -73,7 +79,7 @@
                                                                     <span>Nota de Credito</span>
                                                                     </t>
                                                                 </td>
-                                                                <t t-if="pay['ref'][0]=='R'"> 
+                                                                <t t-if="not pay['payment_method']"> 
                                                                     <td><span t-esc="pay['ref'].split(' (')[0]"/></td>
                                                                     <td><span t-esc="pay['amount']"  t-options='{"widget": "float", "precision": 2}'/></td>
                                                                 </t>

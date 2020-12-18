@@ -40,6 +40,21 @@
             parent="account.menu_finance_reports" 
             sequence="0"        
         />
+
+        <menuitem id="warehouse_report_menu"
+            name="WareHouse Report"
+            parent="sale.sale_menu_root"
+            sequence="5"/>
+
+        <menuitem 
+            id="menu_action_warehouse_sales_report_materiales" 
+            action="action_warehouse_sales_materiales" 
+            parent="warehouse_report_menu" 
+            sequence="1"        
+        />
     </data>
 </odoo>
 <!-- domain="[('id','in',current_user.warehouse_ids.ids)]" -->
+
+<!-- Sorry, you are not allowed to access documents of type 'Stock Valuation Layer' (stock.valuation.layer). This operation is allowed for the groups:
+	- Inventory/Administrator - (Operation: read, User: 6) -->

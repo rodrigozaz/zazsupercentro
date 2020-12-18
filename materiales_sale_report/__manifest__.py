@@ -19,7 +19,7 @@
     'license': 'OEEL-1',
 
     # any module necessary for this one to work correctly
-    'depends': ['account','web'],
+    'depends': ['account','web','sale'],
 
     # always loaded
     'data': [

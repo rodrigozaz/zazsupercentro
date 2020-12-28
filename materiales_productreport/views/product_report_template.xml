@@ -45,8 +45,11 @@
                                         <t t-if="stock.sale_line_id">
                                             <span t-esc="stock.stock_valuation_layer_ids[0].unit_cost"  t-options='{"precision": 2, "widget": "float"}'/>
                                         </t>
-                                        <t t-else="">
+                                        <t t-if="stock.purchase_line_id">
                                             <span t-esc="stock.purchase_line_id.price_unit"  t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                        <t t-if="not stock.purchase_line_id and not stock.sale_line_id">
+                                            <span t-esc="stock.product_id.standard_price"  t-options='{"precision": 2, "widget": "float"}'/>
                                         </t>
                                     </td>
                                     <td class="text-center">
@@ -58,6 +61,10 @@
                                             <t t-set="total" t-value="total - stock.quantity_done"/>
                                             <t t-esc="int(total)"/>
                                         </t>
+                                        <t t-if="stock.picking_code == 'internal'">
+                                            <t t-set="total" t-value="total - stock.quantity_done"/>
+                                            <t t-esc="int(total)"/>
+                                        </t>
                                     </td>
                                     <td class="text-center">
                                         <t t-if="stock.sale_line_id">
@@ -65,14 +72,20 @@
                                             <t t-set="total_value" t-value="total_value + stock.stock_valuation_layer_ids[0].value"/>
                                             <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
                                         </t>
-                                        <t t-else="">
+                                        <t t-if="stock.purchase_line_id">
                                             <t t-set="total_value" t-value="total_value + (stock.price_unit * stock.quantity_done)"/>
+                                            <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                        <t t-if="stock.picking_code == 'internal'">
+                                            <t t-set="total_value" t-value="total_value - (stock.product_id.standard_price * stock.quantity_done)"/>
                                             <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
                                         </t>
                                     </td>
 
                                     <td class="text-center">
-                                        Basado en <span t-esc="stock.origin"/>
+                                        <t t-if="stock.origin">
+                                            Basado en <span t-esc="stock.origin"/>
+                                        </t>
                                     </td>
 
                                 </tr>

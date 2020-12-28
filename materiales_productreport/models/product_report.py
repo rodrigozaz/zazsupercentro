@@ -61,15 +61,22 @@ class ProductInventory(models.Model):
     def get_lines(self, data, warehouse,product):
 
         lines = []
-        stocks = self.env['stock.move'].search([('picking_type_id.code','in',['incoming','outgoing']),('state', 'in', ['done']),('warehouse_id','=',warehouse.id),('product_id','=',product.id),('date','>=',data['start_date']),('date','<=',data['end_date'])], order="date ASC")
+        stocks = self.env['stock.move'].search([('state', 'in', ['done']),'|',('warehouse_id','=',warehouse.id),('location_id','=',warehouse.lot_stock_id.id),('product_id','=',product.id),('date','>=',data['start_date']),('date','<=',data['end_date'])], order="date ASC")
         total = 0
         total_val = 0
         for stock in stocks:
             cost = 0
+            comment = ''
+            if stock.origin:
+                comment = 'Basado en '+ stock.origin
+
             if stock.sale_line_id:
                 cost = stock.stock_valuation_layer_ids[0].unit_cost
-            else:
+                
+            elif stock.purchase_line_id:
                 cost = stock.purchase_line_id.price_unit
+            else:
+                cost = stock.product_id.standard_price
 
             if stock.picking_code == 'incoming':
                 total += stock.quantity_done
@@ -77,6 +84,9 @@ class ProductInventory(models.Model):
             elif stock.picking_code == 'outgoing':
                 total -= stock.quantity_done
                 total_val += stock.stock_valuation_layer_ids[0].value
+            else:
+                total -= stock.quantity_done
+                total_val -= (stock.product_id.standard_price * stock.quantity_done)
             vals = {
                 'date': datetime.strftime(stock.date, '%Y-%m-%d'),
                 'name': stock.picking_id.name,
@@ -84,7 +94,7 @@ class ProductInventory(models.Model):
                 'cost': cost,
                 'total': int(total),
                 'total_val' : total_val,
-                'comment': 'Basado en '+ stock.origin
+                'comment': comment
             }
             lines.append(vals)
         return lines
@@ -149,9 +159,9 @@ class ReportAttendanceRecap(models.AbstractModel):
         warehouse = self.env['stock.warehouse'].search([('id','=',location_id)])
         product = self.env['product.product'].search([('id','=', product_id)]).with_context({'warehouse': warehouse.id})
 
-        stocks = self.env['stock.move'].search([('picking_type_id.code','in',['incoming','outgoing']),('state', 'in', ['done']),('warehouse_id','=',warehouse.id),('product_id','=',product.id),('date','>=',start_date),('date','<=',end_date)],order="date ASC")
+        stocks = self.env['stock.move'].search([('state', 'in', ['done']),'|',('warehouse_id','=',warehouse.id),('location_id','=',warehouse.lot_stock_id.id),('product_id','=',product.id),('date','>=',start_date),('date','<=',end_date)],order="date ASC")
 
-        print(stocks)
+        # print(stocks, '\n\n\n')
         return {
             'doc_ids': data['ids'],
             'doc_model': data['model'],

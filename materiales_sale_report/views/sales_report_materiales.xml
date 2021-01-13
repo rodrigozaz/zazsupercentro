@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_warehouse_sales_materiales" model="ir.ui.view">
+        <field name="name">Corte de Caja</field>
+        <field name="model">warehouse.sales</field>
+        <field name="arch" type="xml">
+        <form string="Choose your date">
+        <field name="user_id" invisible="1"/>
+        <field name="warehouse_ids" invisible="1"/>
+        <group>
+            <group>
+                <field name="warehouse_id" options="{'no_create':1,'no_create_edit':1}" domain="[('id','in',warehouse_ids)]"/>
+                <field name="report_date"/>
+            </group>
+        </group>
+        <footer>
+            <button name="print_pdf_warehouse_sales" 
+                string="Generate report" 
+                type="object" 
+                class="btn-primary"
+                />
+            <button string="Cancel" class="btn-default" special="cancel" />
+        </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="action_warehouse_sales_materiales" model="ir.actions.act_window">
+        <field name="name">Corte de Caja</field>
+        <field name="res_model">warehouse.sales</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_warehouse_sales_materiales"/>
+        <field name="target">new</field>
+        </record>
+
+        <menuitem 
+            id="menu_action_warehouse_sales_materiales" 
+            action="action_warehouse_sales_materiales" 
+            parent="account.menu_finance_reports" 
+            sequence="0"        
+        />
+
+        <menuitem id="warehouse_report_menu"
+            name="WareHouse Report"
+            parent="sale.sale_menu_root"
+            sequence="5"/>
+
+        <menuitem 
+            id="menu_action_warehouse_sales_report_materiales" 
+            action="action_warehouse_sales_materiales" 
+            parent="warehouse_report_menu" 
+            sequence="1"        
+        />
+    </data>
+</odoo>
+<!-- domain="[('id','in',current_user.warehouse_ids.ids)]" -->
+
+<!-- Sorry, you are not allowed to access documents of type 'Stock Valuation Layer' (stock.valuation.layer). This operation is allowed for the groups:
+	- Inventory/Administrator - (Operation: read, User: 6) -->

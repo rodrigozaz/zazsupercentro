@@ -40,6 +40,6 @@
         <field name="name">User's warehouse specific Journals</field>
         <field name="model_id" ref="account.model_account_journal"/>
         <field name="global" eval="True"/>
-        <field name="domain_force">[('warehouse_id', 'in', user.warehouse_ids.ids)]</field>
+        <field name="domain_force">['|', ('warehouse_id', 'in', user.warehouse_ids.ids), ('warehouse_id', '=', False)]</field>
     </record>
 </odoo>

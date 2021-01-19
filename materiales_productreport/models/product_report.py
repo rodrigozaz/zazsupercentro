@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
-from datetime import datetime
+from datetime import datetime,timedelta
 import json
 import io
 from odoo.tools import date_utils
@@ -61,9 +61,25 @@ class ProductInventory(models.Model):
     def get_lines(self, data, warehouse,product):
 
         lines = []
-        stocks = self.env['stock.move'].search([('state', 'in', ['done']),'|',('warehouse_id','=',warehouse.id),('location_id','=',warehouse.lot_stock_id.id),('product_id','=',product.id),('date','>=',data['start_date']),('date','<=',data['end_date'])], order="date ASC")
-        total = 0
+
+        company_id = self.env.context.get('force_company', self.env.company.id)
+        create_date = datetime.strptime(data['start_date'], '%Y-%m-%d')
+        domain = [
+            ('product_id', '=', product.id),
+            ('company_id', '=', company_id),
+            ('create_date', '<=', create_date),
+            '|',
+            ('stock_move_id.location_id','=', warehouse.lot_stock_id.id),
+            ('stock_move_id.location_dest_id','=', warehouse.lot_stock_id.id),
+        ]
+        
+        groups = self.env['stock.valuation.layer'].with_context({'warehouse': warehouse.id}).read_group(domain, ['unit_cost','value:sum', 'quantity:sum'], ['product_id'])
         total_val = 0
+        for group in groups:
+            total_val = self.env.company.currency_id.round(group['value'])
+
+        stocks = self.env['stock.move'].search([('state', 'in', ['done']),'|',('warehouse_id','=',warehouse.id),('location_id','=',warehouse.lot_stock_id.id),('product_id','=',product.id),('date','>=',data['start_date']),('date','<=',data['end_date'])], order="date ASC")
+        total = product.qty_available
         for stock in stocks:
             cost = 0
             comment = ''
@@ -80,7 +96,7 @@ class ProductInventory(models.Model):
 
             if stock.picking_code == 'incoming':
                 total += stock.quantity_done
-                total_val += (stock.quantity_done * stock.price_unit)
+                total_val += stock.stock_valuation_layer_ids[0].value
             elif stock.picking_code == 'outgoing':
                 total -= stock.quantity_done
                 total_val += stock.stock_valuation_layer_ids[0].value
@@ -111,7 +127,7 @@ class ProductInventory(models.Model):
         sheet.merge_range('A1:G2', 'Kardex de Producto', head)
 
         warehouse = self.env['stock.warehouse'].search([('id','=',data['warehouse'])])
-        product = self.env['product.product'].search([('id','=', data['product'])]).with_context({'warehouse': warehouse.id})
+        product = self.env['product.product'].search([('id','=', data['product'])]).with_context({'to_date': data['start_date'],'warehouse': warehouse.id})
 
         stocks = self.get_lines(data,warehouse,product)
 
@@ -155,13 +171,26 @@ class ReportAttendanceRecap(models.AbstractModel):
         product_id = data['form']['product']
         start_date = data['form']['start_date']
         end_date = data['form']['end_date']
-
         warehouse = self.env['stock.warehouse'].search([('id','=',location_id)])
-        product = self.env['product.product'].search([('id','=', product_id)]).with_context({'warehouse': warehouse.id})
+
+        product = self.env['product.product'].search([('id','=', product_id)]).with_context({'to_date': start_date,'warehouse': warehouse.id})
 
         stocks = self.env['stock.move'].search([('state', 'in', ['done']),'|',('warehouse_id','=',warehouse.id),('location_id','=',warehouse.lot_stock_id.id),('product_id','=',product.id),('date','>=',start_date),('date','<=',end_date)],order="date ASC")
-
-        # print(stocks, '\n\n\n')
+        company_id = self.env.context.get('force_company', self.env.company.id)
+        create_date = datetime.strptime(start_date, '%Y-%m-%d')
+        domain = [
+            ('product_id', '=', product.id),
+            ('company_id', '=', company_id),
+            ('create_date', '<=', create_date),
+            '|',
+            ('stock_move_id.location_id','=', warehouse.lot_stock_id.id),
+            ('stock_move_id.location_dest_id','=', warehouse.lot_stock_id.id),
+        ]
+        
+        groups = self.env['stock.valuation.layer'].with_context({'warehouse': warehouse.id}).read_group(domain, ['unit_cost','value:sum', 'quantity:sum'], ['product_id'])
+        total = 0
+        for group in groups:
+            total = self.env.company.currency_id.round(group['value'])
         return {
             'doc_ids': data['ids'],
             'doc_model': data['model'],
@@ -169,5 +198,6 @@ class ReportAttendanceRecap(models.AbstractModel):
             'start_date':start_date,
             'end_date' : end_date,
             'stocks': stocks,
-            'product' : product
+            'product' : product,
+            'total_price': total
         }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="pricelist_agreement_view_form_inherit_material" model="ir.ui.view">
+        <field name="name">pricelist.agreement.form.view.inherit.material</field>
+        <field name="model">pricelist.agreement</field>
+        <field name="arch" type="xml">
+            <form string="Agreements">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"></field>
+                            <field name="vendor_id"></field>
+                        </group>
+                        <group>
+                            <field name="start_date"></field>
+                            <field name="end_date"></field>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pricelist_agreement_view_tree_inherit_material" model="ir.ui.view">
+        <field name="name">pricelist.agreement.tree.view.inherit.material</field>
+        <field name="model">pricelist.agreement</field>
+        <field name="arch" type="xml">
+            <tree string="Agreements">
+                <field name="name"></field>
+                <field name="vendor_id"></field>
+                <field name="start_date"></field>
+                <field name="end_date"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pricelist_agreement" model="ir.actions.act_window">
+        <field name="name">Agreements</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pricelist.agreement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Agreement found
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_pricelist_agreement" action="action_pricelist_agreement"
+           parent="purchase.menu_purchase_config" sequence="1"/>
+
+</odoo>

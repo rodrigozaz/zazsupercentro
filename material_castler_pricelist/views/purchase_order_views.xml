@@ -6,7 +6,7 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//label[@for='receipt_reminder_email']" position="before">
+            <xpath expr="//field[@name='date_approve']" position="before">
                 <field name="agreement_id"></field>
             </xpath>
         </field>

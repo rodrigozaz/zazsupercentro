@@ -9,6 +9,7 @@
             <xpath expr="//field[@name='currency_id']" position="before">
                 <field name="start_date"/>
                 <field name="end_date"/>
+                <field name="is_agreement"/>
             </xpath>
         </field>
     </record>
@@ -21,6 +22,7 @@
             <xpath expr="//field[@name='currency_id']" position="before">
                 <field name="start_date"/>
                 <field name="end_date"/>
+                <field name="is_agreement" optional="hide"/>
             </xpath>
         </field>
     </record>

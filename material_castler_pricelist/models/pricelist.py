@@ -8,6 +8,7 @@ class Pricelist(models.Model):
 
     start_date = fields.Date()
     end_date = fields.Date()
+    is_agreement = fields.Boolean()
 
 
 class ProductSupplierinfo(models.Model):

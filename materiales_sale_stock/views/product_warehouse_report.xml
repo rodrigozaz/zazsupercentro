@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>        
+        <record id="action_product_all_warehouse" model="ir.actions.report">
+            <field name="name">Consulta de Existencia en Sucursales</field>
+            <field name="model">report.materiales_sale_stock.warehouse_product_report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">materiales_sale_stock.warehouse_product_report</field>
+        </record>       
+    </data>
+</odoo>

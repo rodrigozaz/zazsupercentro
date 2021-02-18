@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <template id="warehouse_product_report">
+        <t t-set="company" t-value="request.env.company"/>
+            <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page" >
+                    <t t-set="docs" t-as="o"/>
+                    <div class="oe_structure"/>
+
+                    <h3 style="text-align:center;"><t t-esc="product['default_code']"/> <t t-esc="product['name']"/></h3>
+                    <div class="text-right">
+                        <span class="col-auto mw-100 mb-2">Fecha: <strong> <t t-esc="date"/></strong> </span> 
+                    </div>
+
+                    <table class="table table-sm o_main_table" string="product stocks">
+                        <thead>
+                            <tr>
+                                <t t-set="colspan" t-value="4"/>
+                                <th name="th_name" class="text-left"><span>Warehouse</span></th>
+                                <th name="th_customer" class="text-left"><span>Available Quantity</span></th>
+                                <th name="th_total" class="text-left"><span>Reserved Quantity</span></th>
+                                <th name="th_status" class="text-left"><span>Forcasted Quantity</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <t t-foreach="stocks" t-as="stock">
+                                    <tr>
+                                        <td class="text-left">
+                                            <span t-esc="stock['name']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="stock['available']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="stock['reserved']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="stock['forcasted']"/>
+                                        </td>
+                                        
+                                    </tr>
+                                </t>
+                        </tbody>
+                    </table>
+
+                    
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
+

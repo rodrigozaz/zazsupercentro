@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="product_pricelist_view_form_inherit_material" model="ir.ui.view">
+        <field name="name">product.pricelist.form.view.inherit.material</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="before">
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="is_agreement"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_pricelist_view_tree_inherit_material" model="ir.ui.view">
+        <field name="name">product.pricelist.tree.view.inherit.material</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="before">
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="is_agreement" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

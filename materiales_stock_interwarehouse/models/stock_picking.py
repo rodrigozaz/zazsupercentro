@@ -44,7 +44,7 @@ class StockPicking(models.Model):
     @api.depends('state', 'location_dest_id')
     def _compute_show_request(self):
         for picking in self:
-            if picking.state in ['draft', 'waiting'] and picking.location_dest_id.id in self.env.user.location_ids.ids:
+            if picking.state in ['draft', 'waiting'] and picking.location_dest_id.id in self.env.user.location_ids.ids and picking.picking_type_id.sequence_code == 'INT':
                 picking.show_request = True
             else:
                 picking.show_request = False

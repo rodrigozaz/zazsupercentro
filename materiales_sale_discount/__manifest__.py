@@ -3,8 +3,7 @@
     'name': "Materiales Castelar : Sales discount control per user",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Restricts Salesperson from confirming discount on sale order for discounts higher than their limit""",
 
     'description': """
         Task ID: 2450255

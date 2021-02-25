@@ -16,11 +16,12 @@
                     <table class="table table-sm o_main_table" string="product stocks">
                         <thead>
                             <tr>
-                                <t t-set="colspan" t-value="4"/>
-                                <th name="th_name" class="text-left"><span>Warehouse</span></th>
-                                <th name="th_customer" class="text-left"><span>Available Quantity</span></th>
-                                <th name="th_total" class="text-left"><span>Reserved Quantity</span></th>
-                                <th name="th_status" class="text-left"><span>Forcasted Quantity</span></th>
+                                <t t-set="colspan" t-value="5"/>
+                                <th name="th_warehouse" class="text-left"><span>Almacén</span></th>
+                                <th name="th_available" class="text-left"><span>Inventario en stock</span></th>
+                                <th name="th_reserved" class="text-left"><span>Comprometido</span></th>
+                                <th name="th_ordered" class="text-left"><span>Pedido</span></th>
+                                <th name="th_forcasted" class="text-left"><span>Disponible</span></th>
                             </tr>
                         </thead>
                         <tbody class="invoice_tbody">
@@ -34,6 +35,9 @@
                                         </td>
                                         <td class="text-left">
                                             <span t-esc="stock['reserved']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="stock['ordered']"/>
                                         </td>
                                         <td class="text-left">
                                             <span t-esc="stock['forcasted']"/>

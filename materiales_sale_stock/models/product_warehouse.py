@@ -3,7 +3,7 @@
 from odoo import models, fields, api, _
 from datetime import datetime,timedelta
 
-class WarehouseSales(models.Model):
+class WarehouseSales(models.TransientModel):
     _name = 'warehouse.product.stock'
     _description = 'stock report for all warehouse'
 
@@ -38,6 +38,7 @@ class ReportAttendanceRecap(models.AbstractModel):
                 'name': wh.name,
                 'available': p.qty_available,
                 'reserved': p.qty_available - p.free_qty,
+                'ordered': p.incoming_qty,
                 'forcasted': p.virtual_available,
             })
 

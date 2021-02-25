@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_users_form_inherit_materiales_discount" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.materiales_discount</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']/.." position="after">
+                <group>
+                    <field name="discount_limit" widget="percentage"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

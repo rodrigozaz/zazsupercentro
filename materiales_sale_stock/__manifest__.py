@@ -22,7 +22,6 @@
 
     # always loaded
     'data': [
-        "security/ir.model.access.csv",
         "views/product_warehouse_template.xml",
         "views/product_warehouse_report.xml",
         "views/product_warehouse_form.xml",

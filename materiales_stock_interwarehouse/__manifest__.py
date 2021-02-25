@@ -3,8 +3,7 @@
     'name': "Materiales Castelar : Restrictions for transfer inter-warehouse (stores)",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Restrict Stock user from confirming transfer without origin warehouse approval""",
 
     'description': """
         Task ID: 2440159

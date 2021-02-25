@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <template id="product_report">
+        <t t-set="company" t-value="request.env.company"/>
+            <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page" >
+                    <t t-set="docs" t-as="o"/>
+                    <div class="oe_structure"/>
+
+                    <h1 style="text-align:center;"><strong> <t t-esc="warehouse"/></strong></h1>
+                    <h1 style="text-align:center;"><strong> <t t-esc="product.name"/></strong></h1>
+                    <div class="text-right">
+                        <span class="col-auto mw-100 mb-2">Fecha: <strong> <t t-esc="start_date"/> - <t t-esc="end_date"/></strong> </span> 
+                    </div>
+                    <!-- modifiy this -->
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <t t-set="colspan" t-value="7"/>
+                                <th name="th_name" class="text-center"><span>Fecha</span></th>
+                                <th name="th_customer" class="text-center"><span>Documento</span></th>
+                                <th name="th_status" class="text-center"><span>Cantidad</span></th>
+                                <th name="th_type" class="text-center"><span>Costo</span></th>
+                                <th name="th_type" class="text-center"><span>Saldo</span></th>
+                                <th name="th_type" class="text-center"><span>Valor del Inventario</span></th>
+                                <th name="th_type" class="text-center"><span>Comentarios</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total" t-value="product.qty_available"/>
+                            <t t-set="total_value" t-value="total_price"/>
+                            <t t-foreach="stocks" t-as="stock">
+                                <tr>
+                                    <td class="text-center">
+                                        <span t-esc="stock.date" t-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="stock.picking_id.name"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="int(stock.quantity_done)"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-if="stock.sale_line_id">
+                                            <span t-esc="stock.stock_valuation_layer_ids[0].unit_cost"  t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                        <t t-if="stock.purchase_line_id">
+                                            <span t-esc="stock.purchase_line_id.price_unit"  t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                        <t t-if="not stock.purchase_line_id and not stock.sale_line_id">
+                                            <span t-esc="stock.product_id.standard_price"  t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-if="stock.picking_code == 'incoming'">
+                                            <t t-set="total" t-value="total + stock.quantity_done"/>
+                                            <t t-esc="int(total)"/>
+                                        </t>
+                                        <t t-if="stock.picking_code == 'outgoing'">
+                                            <t t-set="total" t-value="total - stock.quantity_done"/>
+                                            <t t-esc="int(total)"/>
+                                        </t>
+                                        <t t-if="stock.picking_code == 'internal'">
+                                            <t t-set="total" t-value="total - stock.quantity_done"/>
+                                            <t t-esc="int(total)"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-if="stock.picking_code == 'outgoing'">
+                                            <!-- <span t-esc="stock.sale_line_id.price_unit * stock.quantity_done"  t-options='{"precision": 2, "widget": "float"}'/> -->
+                                            <t t-set="total_value" t-value="total_value + stock.stock_valuation_layer_ids[0].value"/>
+                                            <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                        <t t-if="stock.picking_code == 'incoming'">
+                                            <t t-set="total_value" t-value="total_value + stock.stock_valuation_layer_ids[0].value"/>
+                                            <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                        <t t-if="stock.picking_code == 'internal'">
+                                            <t t-set="total_value" t-value="total_value - (stock.product_id.standard_price * stock.quantity_done)"/>
+                                            <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <t t-if="stock.origin">
+                                            Basado en <span t-esc="stock.origin"/>
+                                        </t>
+                                    </td>
+
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

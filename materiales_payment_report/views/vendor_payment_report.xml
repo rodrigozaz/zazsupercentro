@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>        
+        <record id="action_vendor_payment_materiales" model="ir.actions.report">
+            <field name="name">Vendor Payment</field>
+            <field name="model">report.materiales_payment_report.vendor_payment_report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">materiales_payment_report.vendor_payment_report</field>
+        </record>       
+    </data>
+</odoo>

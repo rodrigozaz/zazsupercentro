@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <template id="vendor_payment_report">
+        <t t-set="company" t-value="request.env.company"/>
+            <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page" >
+                    <t t-set="docs" t-as="o"/>
+                    <div class="oe_structure"/>
+
+                    <h3 style="text-align:center;"><t t-esc="vendor"/> </h3>
+                    <div class="text-right">
+                        <span class="col-auto mw-100 mb-2">Fecha: <strong> <t t-esc="date"/></strong> </span> 
+                    </div>
+
+                    <table class="table table-sm o_main_table" string="Vendor Payment">
+                        <thead>
+                            <tr>
+                                <t t-set="colspan" t-value="4"/>
+                                <th name="th_name" class="text-left"><span>Payment Number</span></th>
+                                <th name="th_customer" class="text-left"><span>Journal</span></th>
+                                <th name="th_total" class="text-left"><span>Total Paid</span></th>
+                                <th name="th_status" class="text-left"><span>Invoices</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <t t-foreach="payments" t-as="payment">
+                                    <tr>
+                                        <td class="text-left">
+                                            <span t-esc="payment.name"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="payment.journal_id.name"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="payment.amount"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="','.join(payment.invoice_ids.mapped('name'))"/>
+                                        </td>
+                                        
+                                    </tr>
+                                </t>
+                        </tbody>
+                    </table>
+
+                    
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

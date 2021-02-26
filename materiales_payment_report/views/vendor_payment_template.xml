@@ -17,10 +17,14 @@
                         <thead>
                             <tr>
                                 <t t-set="colspan" t-value="4"/>
-                                <th name="th_name" class="text-left"><span>Payment Number</span></th>
-                                <th name="th_customer" class="text-left"><span>Journal</span></th>
-                                <th name="th_total" class="text-left"><span>Total Paid</span></th>
-                                <th name="th_status" class="text-left"><span>Invoices</span></th>
+                                <!-- payment number -->
+                                <th name="th_name" class="text-left"><span>Número de Pago</span></th> 
+                                <!-- journal -->
+                                <th name="th_customer" class="text-left"><span>Diario</span></th>
+                                <!-- total paid -->
+                                <th name="th_total" class="text-left"><span>Total Pagado</span></th>
+                                <!-- invoices -->
+                                <th name="th_status" class="text-left"><span>Facturas pagadas</span></th>
                             </tr>
                         </thead>
                         <tbody class="invoice_tbody">

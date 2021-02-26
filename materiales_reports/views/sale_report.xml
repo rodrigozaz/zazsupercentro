@@ -2,6 +2,7 @@
 <odoo>
     <template id="report_sale_inherit_materiales" inherit_id="sale.report_saleorder_document">
         <xpath expr="//p[@t-field='doc.note']" position="before">
+
             <span t-esc="doc.amount_to_text()"/>
         </xpath>
 

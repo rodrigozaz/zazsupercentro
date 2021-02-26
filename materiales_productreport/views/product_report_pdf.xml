@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>        
+        <record id="action_product_report" model="ir.actions.report">
+            <field name="name">Product Inventory</field>
+            <field name="model">report.materiales_productreport.product_report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">materiales_productreport.product_report</field>
+        </record>
+        <template id="assets_backend" name="xls_assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/materiales_productreport/static/src/js/excel_file.js"/>
+            </xpath>
+        </template>       
+    </data>
+</odoo>

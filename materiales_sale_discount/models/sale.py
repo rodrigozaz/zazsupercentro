@@ -8,7 +8,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
     
     state = fields.Selection(selection_add=[('to_approve', 'Pending Approval')])
-    responsible = fields.Many2one('res.partner', string='Responsible', domain="[('self_user_id', '!=', False),('groups_id','=',39)]")
+    responsible = fields.Many2one('res.partner', string='Responsible', domain="[('self_user_id', '!=', False),('groups_id','=',31)]")
     show_request = fields.Boolean(string='Request Approval?', default=False, compute='_compute_show_request')
     show_authorization = fields.Boolean(string='Authorized?', default=False, compute='_compute_show_authorization')
     approve = fields.Boolean(string='Approved?', default=False)

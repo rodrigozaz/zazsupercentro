@@ -7,8 +7,8 @@ class VendorPayment(models.TransientModel):
     _name = 'vendor.payment'
     _description = 'Vendor Payment Report'
 
-    vendor_id = fields.Many2one('res.partner', string= 'Vendor',required=True,)
-    payment_date = fields.Date(string="Payment Date",required=True,)  
+    vendor_id = fields.Many2one('res.partner', string= 'Proveedor',required=True,) #vendor
+    payment_date = fields.Date(string="Fecha de pago",required=True,)  #payment Date
 
     def print_pdf_payment(self):
         data = {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="stock_picking_admin_rule" model="ir.rule">
+        <field name="name">Admin's warehouse specific pickings</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="global" eval="False"/>
+        <field name="domain_force">[('location_id','in',user.location_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
+    </record>
+    <record id="stock_picking_user_rule" model="ir.rule">
+        <field name="name">User's warehouse specific pickings</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="global" eval="False"/>
+        <field name="domain_force">[('picking_type_id.warehouse_id', 'in', user.warehouse_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+    </record>
+</odoo>

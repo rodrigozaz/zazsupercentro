@@ -27,6 +27,7 @@
     'version': '0.1',
     'depends': ['stock', 'sale_store'],
     'data': [
+        'security/stock_interwarehouse_security.xml',
         'views/email_template.xml',
         'views/stock_picking_views.xml',
     ],

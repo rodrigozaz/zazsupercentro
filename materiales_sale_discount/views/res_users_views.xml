@@ -8,6 +8,7 @@
             <xpath expr="//page[@name='access_rights']/group[1]" position="after">
                 <group>
                     <field name="discount_limit" widget="percentage"/>
+                    <field name="responsible_ids" widget="many2many_tags"/>
                 </group>
             </xpath>
         </field>

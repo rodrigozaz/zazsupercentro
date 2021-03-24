@@ -16,7 +16,7 @@
                     <table class="table table-sm o_main_table" string="Vendor Payment">
                         <thead>
                             <tr>
-                                <t t-set="colspan" t-value="4"/>
+                                <t t-set="colspan" t-value="5"/>
                                 <!-- payment number -->
                                 <th name="th_name" class="text-left"><span>Número de Pago</span></th> 
                                 <!-- journal -->
@@ -25,9 +25,12 @@
                                 <th name="th_total" class="text-left"><span>Total Pagado</span></th>
                                 <!-- invoices -->
                                 <th name="th_status" class="text-left"><span>Facturas pagadas</span></th>
+                                <!-- ref -->
+                                <th name="th_status" class="text-left"><span>Folio Proveedor</span></th>
                             </tr>
                         </thead>
                         <tbody class="invoice_tbody">
+                            <t t-set="total" t-value="0"/>
                             <t t-foreach="payments" t-as="payment">
                                     <tr>
                                         <td class="text-left">
@@ -37,10 +40,14 @@
                                             <span t-esc="payment.journal_id.name"/>
                                         </td>
                                         <td class="text-left">
+                                            <t t-set="total" t-value="total + payment.amount"/>
                                             <span t-esc="payment.amount"/>
                                         </td>
                                         <td class="text-left">
                                             <span t-esc="','.join(payment.invoice_ids.mapped('name'))"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="','.join(payment.invoice_ids.mapped(lambda inv: inv.ref if inv.ref else ''))"/>
                                         </td>
                                         
                                     </tr>
@@ -48,6 +55,20 @@
                         </tbody>
                     </table>
 
+                    <div class="clearfix">
+                        <div id="total">
+                            <div t-attf-class="#{'col-3' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+                                    <tr class="o_total">
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-right">
+                                            <span class="text-nowrap" t-esc="total"  t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                     
                 </div>
             </t>

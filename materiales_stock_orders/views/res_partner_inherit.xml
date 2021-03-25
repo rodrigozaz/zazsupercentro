@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_partner_form_tipo_inherit_materiales" model="ir.ui.view">
+        <field name="name">res_partner.form.tipo.inherit.materiales</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <group name="sale" position="inside">
+                <field name="type_sale"/>
+            </group>
+        </field>
+    </record>
+
+</odoo>

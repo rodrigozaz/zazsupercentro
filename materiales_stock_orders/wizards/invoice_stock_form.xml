@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_invoice_stock_materiales" model="ir.ui.view">
+        <field name="name">Invoice Stock</field>
+        <field name="model">stock.invoice.report</field>
+        <field name="arch" type="xml">
+        <form >
+        <group>
+            <group>
+                <field name="warehouse_id" options="{'no_create':1,'no_create_edit':1}"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </group>
+        </group>
+        <footer>
+            <button name="print_pdf_invoice_stock" 
+                string="Generate report" 
+                type="object" 
+                class="btn-primary"
+                />
+            <button name="export_xls" type="object" default_focus="1"
+                                string="Export Excel" class="oe_highlight"
+                                context="{'xls_export':1}" icon="fa-download"/>
+            <button string="Cancel" class="btn-default" special="cancel" />
+        </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="action_invoice_stock_materiales" model="ir.actions.act_window">
+        <field name="name">Invoice Stock</field>
+        <field name="res_model">stock.invoice.report</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_invoice_stock_materiales"/>
+        <field name="target">new</field>
+        </record>
+
+        
+
+        <menuitem id="menu_invoice_stock_materiales"
+            name="invoice stock"
+            parent="account.menu_finance_reports"
+            action="action_invoice_stock_materiales"
+            sequence="0"/>
+
+    </data>
+</odoo>

@@ -33,7 +33,15 @@ class StockPicking(models.Model):
                 })
             else:
                 raise UserError(_("There is no admin assigned to the origin location"))
-
+                
+    @api.depends('move_type', 'immediate_transfer', 'move_lines.state', 'move_lines.picking_id')
+    def _compute_state(self):
+        for picking in self:
+            prev_state = picking.state
+            super(StockPicking, self)._compute_state()
+            if prev_state == 'to_approve' and picking.state == 'draft':
+                picking.state = 'to_approve'
+                
     @api.depends('state', 'is_locked')
     def _compute_show_validate(self):
         for picking in self:
@@ -47,7 +55,7 @@ class StockPicking(models.Model):
                 picking.show_validate = False
             else:
                 picking.show_validate = True
-
+        
     @api.depends('state', 'location_dest_id')
     def _compute_show_request(self):
         for picking in self:

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <template id="invoice_stock_report">
+        <t t-set="company" t-value="request.env.company"/>
+            <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page" >
+                    <t t-set="docs" t-as="o"/>
+                    <div class="oe_structure"/>
+
+                    <table class="table table-sm o_main_table" string="Vendor Payment">
+                        <thead>
+                            <tr>
+                                <t t-set="colspan" t-value="14"/>
+                                <th class="text-left"><span>Invoice Date</span></th>
+                                <th class="text-left"><span>Invoice number</span></th>
+                                <th class="text-left"><span>Tipo de Venta</span></th>
+                                <th class="text-left"><span>Vendedor</span></th>
+                                <th class="text-left"><span>Convenio de Venta</span></th>
+                                <th class="text-left"><span>Customer Reference</span></th>
+                                <th class="text-left"><span>Customer name</span></th>
+                                <th class="text-left"><span>Product number </span></th>
+                                <th class="text-left"><span>Product description</span></th>
+                                <th class="text-left"><span>Product UOM</span></th>
+                                <th class="text-left"><span>Ordered quantity</span></th>
+                                <th class="text-left"><span>Quantity to deliver</span></th>
+                                <th class="text-left"><span>Discounted Unit Price</span></th>
+                                <th class="text-left"><span>Total amount</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <t t-foreach="invoices" t-as="inv">
+                                    <tr>
+                                        <td class="text-left">
+                                            <span t-esc="inv['invoice_date']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['invoice_name']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['invoice_tipo']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['invoice_salesperson']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['agreement']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['invoice_ref']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['invoice_cust']"/>
+                                        </td>
+                                        
+                                        <td class="text-left">
+                                            <span t-esc="inv['product_num']"/>
+                                        </td>
+                                        
+                                        <td class="text-left">
+                                            <span t-esc="inv['product_name']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['product_uom']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['product_ordered']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['product_deliver']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['unit_price']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="inv['total_price']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+
+                        </tbody>
+                    </table>
+
+                    
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

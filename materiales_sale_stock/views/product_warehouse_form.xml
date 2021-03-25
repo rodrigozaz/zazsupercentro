@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_product_warehouse_materiales" model="ir.ui.view">
+        <field name="name">Consulta de Existencia en Sucursales</field>
+        <field name="model">warehouse.product.stock</field>
+        <field name="arch" type="xml">
+        <form >
+        <group>
+            <group>
+                <field name="product_id" options="{'no_create':1,'no_create_edit':1}"/>
+            </group>
+        </group>
+        <footer>
+            <button name="print_pdf_product_warehouse" 
+                string="Generate report" 
+                type="object" 
+                class="btn-primary"
+                />
+            <button string="Cancel" class="btn-default" special="cancel" />
+        </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="action_product_warehouse_materiales" model="ir.actions.act_window">
+        <field name="name">Consulta de Existencia en Sucursales</field>
+        <field name="res_model">warehouse.product.stock</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_product_warehouse_materiales"/>
+        <field name="target">new</field>
+        </record>
+
+        
+
+        <menuitem id="menu_product_warehouse_materiales"
+            name="Stock in Warehouses Report"
+            parent="sale.sale_menu_root"
+            sequence="5"/>
+        <menuitem 
+            id="menu_action_product_warehouse_materiales" 
+            action="action_product_warehouse_materiales" 
+            parent="menu_product_warehouse_materiales" 
+            sequence="0"        
+        />
+
+    </data>
+</odoo>

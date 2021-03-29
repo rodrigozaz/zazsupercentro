@@ -11,6 +11,10 @@ try:
 except ImportError:
     import xlsxwriter
 
+import logging
+
+_logger = logging.getLogger(__name__)
+# _logger.info()
 class VendorPayment(models.TransientModel):
     _name = 'stock.invoice.report'
     _description = 'Invoice Stock Report'
@@ -72,20 +76,20 @@ class VendorPayment(models.TransientModel):
         # sheet.write(3,1, 'Fecha:', cell_format)
         # sheet.merge_range('C4:D4', data['reportdate'],txt)
 
-        sheet.write(0,0, 'Invoice Date', cell_format)
-        sheet.write(0,1, 'Invoice number', cell_format)
+        sheet.write(0,0, 'Fecha de Factura', cell_format)
+        sheet.write(0,1, 'Factura', cell_format)
         sheet.write(0,2, 'Tipo de Venta', cell_format)
         sheet.write(0,3, 'Salesperson', cell_format)
         sheet.write(0,4, 'Convenio de Venta', cell_format)
-        sheet.write(0,5, 'Customer Reference', cell_format)
-        sheet.write(0,6, 'Customer name', cell_format)
-        sheet.write(0,7,'Product number', cell_format)
-        sheet.write(0,8, 'Product description', cell_format)
-        sheet.write(0,9, 'Product UOM', cell_format)
-        sheet.write(0,10, 'Ordered quantity', cell_format)
-        sheet.write(0,11, 'Quantity to deliver', cell_format)
-        sheet.write(0,12, 'Discounted Unit Price', cell_format)
-        sheet.write(0,13, 'Total amount', cell_format)
+        sheet.write(0,5, 'Codigo SN', cell_format)
+        sheet.write(0,6, 'Cliente', cell_format)
+        sheet.write(0,7,'Codigo', cell_format)
+        sheet.write(0,8, 'Producto', cell_format)
+        sheet.write(0,9, 'UdM', cell_format)
+        sheet.write(0,10, 'Cantidad Pedida', cell_format)
+        sheet.write(0,11, 'Pendiente de Entregar', cell_format)
+        sheet.write(0,12, 'Precio Unitario con Descuento', cell_format)
+        sheet.write(0,13, 'Monto por Entregar', cell_format)
 
         row = 1
 
@@ -150,6 +154,8 @@ class ReportAttendanceRecap(models.AbstractModel):
         return {
             'doc_ids': data['ids'],
             'doc_model': data['model'],
+            'start_date':start_date,
+            'end_date': end_date,
             'warehouse':warehouse_id,
             'invoices': invoice_stock
         }

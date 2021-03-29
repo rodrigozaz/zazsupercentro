@@ -7,25 +7,28 @@
                 <div class="page" >
                     <t t-set="docs" t-as="o"/>
                     <div class="oe_structure"/>
-
+                    <h3 style="text-align:center;"><strong> Reporte de Facturas con Entregas Pendientes, <t t-esc="warehouse"/></strong></h3>
+                    <div class="text-right">
+                        <span class="col-auto mw-100 mb-2">Del <strong> <t t-esc="start_date"/> al <t t-esc="end_date"/></strong> </span> 
+                    </div>
                     <table class="table table-sm o_main_table" string="Vendor Payment">
                         <thead>
                             <tr>
                                 <t t-set="colspan" t-value="14"/>
-                                <th class="text-left"><span>Invoice Date</span></th>
-                                <th class="text-left"><span>Invoice number</span></th>
+                                <th class="text-left"><span>Fecha de Factura</span></th>
+                                <th class="text-left"><span>Factura</span></th>
                                 <th class="text-left"><span>Tipo de Venta</span></th>
                                 <th class="text-left"><span>Vendedor</span></th>
                                 <th class="text-left"><span>Convenio de Venta</span></th>
-                                <th class="text-left"><span>Customer Reference</span></th>
-                                <th class="text-left"><span>Customer name</span></th>
-                                <th class="text-left"><span>Product number </span></th>
-                                <th class="text-left"><span>Product description</span></th>
-                                <th class="text-left"><span>Product UOM</span></th>
-                                <th class="text-left"><span>Ordered quantity</span></th>
-                                <th class="text-left"><span>Quantity to deliver</span></th>
-                                <th class="text-left"><span>Discounted Unit Price</span></th>
-                                <th class="text-left"><span>Total amount</span></th>
+                                <th class="text-left"><span>Codigo SN</span></th>
+                                <th class="text-left"><span>Cliente</span></th>
+                                <th class="text-left"><span>Codigo </span></th>
+                                <th class="text-left"><span>Producto</span></th>
+                                <th class="text-left"><span> UdM</span></th>
+                                <th class="text-left"><span>Cantidad Pedida</span></th>
+                                <th class="text-left"><span>Pendiente de Entregar</span></th>
+                                <th class="text-left"><span>Precio Unitario con Descuento</span></th>
+                                <th class="text-left"><span>Monto por Entregar</span></th>
                             </tr>
                         </thead>
                         <tbody class="invoice_tbody">

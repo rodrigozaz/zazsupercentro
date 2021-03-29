@@ -156,7 +156,7 @@ class ReportAttendanceRecap(models.AbstractModel):
             'doc_model': data['model'],
             'start_date':start_date,
             'end_date': end_date,
-            'warehouse':warehouse_id,
+            'warehouse':warehouse.name,
             'invoices': invoice_stock
         }
 

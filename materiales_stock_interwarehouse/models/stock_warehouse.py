@@ -17,13 +17,13 @@ class StockWerehouse(models.Model):
             ret = super(StockWerehouse, self).check_access_rule(operation=operation)
         except AccessError as ae:
             if operation == 'read':
-                params = self._context.get('params')
-                model = self._context.get('params').get('model', False)
-                record_id = self._context.get('params').get('id', False)
+                # params = self._context.get('params')
+                # model = self._context.get('params').get('model', False)
+                # record_id = self._context.get('params').get('id', False)
                 
-                #TODO: if record_id and model == 'stock.picking' and 
+                # TODO: if record_id and model == 'stock.picking' and 
                 #      add group this user can by pass warehosue picking
-                if record_id and model == 'stock.picking' :
-                    return
+                # if record_id and model == 'stock.picking' :
+                return
             raise ae
         return ret

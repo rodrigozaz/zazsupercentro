@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_vendor_payment_materiales" model="ir.ui.view">
+        <field name="name">Pagos por Proveedort</field>
+        <field name="model">vendor.payment</field>
+        <field name="arch" type="xml">
+        <form >
+        <group>
+            <group>
+                <field name="vendor_id" options="{'no_create':1,'no_create_edit':1}"/>
+                <field name="payment_date"/>
+            </group>
+        </group>
+        <footer>
+            <button name="print_pdf_payment" 
+                string="Generate report" 
+                type="object" 
+                class="btn-primary"
+                />
+            <button string="Cancel" class="btn-default" special="cancel" />
+        </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="action_vendor_payment_materiales" model="ir.actions.act_window">
+        <field name="name">Pagos por Proveedor</field>
+        <field name="res_model">vendor.payment</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vendor_payment_materiales"/>
+        <field name="target">new</field>
+        </record>
+
+        
+
+        <menuitem id="menu_vendor_payment_materiales"
+            name="Pagos por Proveedor"
+            parent="account.menu_finance_reports"
+            action="action_vendor_payment_materiales"
+            sequence="0"/>
+
+    </data>
+</odoo>

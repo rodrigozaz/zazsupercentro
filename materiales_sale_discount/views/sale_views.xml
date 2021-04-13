@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record id="view_order_form_inherit_materiales_discount" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.materiales</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='authorized_transaction_ids']" position="after">
+                    <field name="show_request" invisible="1"/>
+                    <field name="show_authorization" invisible="1"/>
+                    <field name="approve" invisible="1"/>
+                    <field name="under_limit" invisible="1"/>
+                    <button name="button_request" attrs="{'invisible': ['|',('state', 'not in', ['draft','sent']),('show_request', '=', False)]}" string="Request Approval" type="object" class="oe_highlight"/>
+                    <button name="button_approve" attrs="{'invisible': [('show_authorization', '=', False)]}" string="Approve" type="object" class="oe_highlight"/>
+                    <button name="button_reject" attrs="{'invisible': [('show_authorization', '=', False)]}" string="Reject" type="object" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//button[@name='action_confirm'][2]" position="replace">
+                    <button name="action_confirm"
+                        string="Confirm" type="object"
+                        attrs="{'invisible': ['|',('state', 'not in', ['draft']),'&amp;',('approve', '=', False),('under_limit', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//button[@name='action_confirm'][1]" position="replace">
+                    <button name="action_confirm" id="action_confirm"
+                        string="Confirm" class="btn-primary" type="object"
+                        attrs="{'invisible': ['|',('state', 'not in', ['sent']),'&amp;',('approve', '=', False),('under_limit', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                    <field name="responsible"/>
+                </xpath>
+                <xpath expr="//tree//field[@name='price_subtotal']" position="after">
+                    <field name="past_limit" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

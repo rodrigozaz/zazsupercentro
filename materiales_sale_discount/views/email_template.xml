@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="discount_approval_email" model="mail.template">
+            <field name="name">Discount Authorization Template</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">Request For Discount Approval</field>
+            <field name="body_html"><![CDATA[
+Sale Order ${object.name} requires a high discount approval.
+]]>
+            </field>  
+        </record>
+    </data>
+    <data>
+        <record id="request_denied_email" model="mail.template">
+            <field name="name">Request Disapproved Template</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">Request Denied</field>
+            <field name="body_html"><![CDATA[
+Sale Order ${object.name} has been denied for confirmation.
+]]>
+            </field>  
+        </record>
+    </data>
+    <data>
+        <record id="request_approved_email" model="mail.template">
+            <field name="name">Request Approved Template</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">Request Approved</field>
+            <field name="body_html"><![CDATA[
+Sale Order ${object.name} has been approved for confirmation.
+]]>
+            </field>  
+        </record>
+    </data>
+</odoo>

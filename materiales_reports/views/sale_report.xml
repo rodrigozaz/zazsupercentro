@@ -4,7 +4,6 @@
         <xpath expr="//p[@t-field='doc.note']" position="before">
             <span t-esc="doc.amount_to_text()"/>
         </xpath>
-
         <xpath expr="//table/tbody" position="attributes">
             <attribute name="style" separator=";" add="font-size:10px"/>
         </xpath>

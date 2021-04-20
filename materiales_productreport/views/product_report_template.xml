@@ -61,8 +61,12 @@
                                             <t t-set="total" t-value="total - stock.quantity_done"/>
                                             <t t-esc="int(total)"/>
                                         </t>
-                                        <t t-if="stock.picking_code == 'internal'">
+                                        <t t-if="stock.picking_code == 'internal' and stock.location_id.id == warehouse_id">
                                             <t t-set="total" t-value="total - stock.quantity_done"/>
+                                            <t t-esc="int(total)"/>
+                                        </t>
+                                        <t t-if="stock.picking_code == 'internal' and stock.location_dest_id.id == warehouse_id">
+                                            <t t-set="total" t-value="total + stock.quantity_done"/>
                                             <t t-esc="int(total)"/>
                                         </t>
                                     </td>
@@ -76,8 +80,12 @@
                                             <t t-set="total_value" t-value="total_value + stock.stock_valuation_layer_ids[0].value"/>
                                             <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
                                         </t>
-                                        <t t-if="stock.picking_code == 'internal'">
+                                        <t t-if="stock.picking_code == 'internal' and stock.location_id.id == warehouse_id">
                                             <t t-set="total_value" t-value="total_value - (stock.product_id.standard_price * stock.quantity_done)"/>
+                                            <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
+                                        </t>
+                                        <t t-if="stock.picking_code == 'internal' and stock.location_dest_id.id == warehouse_id">
+                                            <t t-set="total_value" t-value="total_value + (stock.product_id.standard_price * stock.quantity_done)"/>
                                             <span t-esc="total_value" t-options='{"precision": 2, "widget": "float"}'/>
                                         </t>
                                     </td>

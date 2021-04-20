@@ -78,7 +78,7 @@ class ProductInventory(models.Model):
         for group in groups:
             total_val = self.env.company.currency_id.round(group['value'])
 
-        stocks = self.env['stock.move'].search([('state', 'in', ['done']),'|',('warehouse_id','=',warehouse.id),('location_id','=',warehouse.lot_stock_id.id),('product_id','=',product.id),('date','>=',data['start_date']),('date','<=',data['end_date'])], order="date ASC")
+        stocks = self.env['stock.move'].search([('state', 'in', ['done']),'|',('location_dest_id','=',warehouse.lot_stock_id.id),('location_id','=',warehouse.lot_stock_id.id),('product_id','=',product.id),('date','>=',data['start_date']),('date','<=',data['end_date'])], order="date ASC")
         total = product.qty_available
         for stock in stocks:
             cost = 0
@@ -101,8 +101,12 @@ class ProductInventory(models.Model):
                 total -= stock.quantity_done
                 total_val += stock.stock_valuation_layer_ids[0].value
             else:
-                total -= stock.quantity_done
-                total_val -= (stock.product_id.standard_price * stock.quantity_done)
+                if stock.location_id.id == warehouse.lot_stock_id.id:
+                    total -= stock.quantity_done
+                    total_val -= (stock.product_id.standard_price * stock.quantity_done)
+                else:
+                    total += stock.quantity_done
+                    total_val += (stock.product_id.standard_price * stock.quantity_done)
             vals = {
                 'date': datetime.strftime(stock.date, '%Y-%m-%d'),
                 'name': stock.picking_id.name,
@@ -175,7 +179,7 @@ class ReportAttendanceRecap(models.AbstractModel):
 
         product = self.env['product.product'].search([('id','=', product_id)]).with_context({'to_date': start_date,'warehouse': warehouse.id})
 
-        stocks = self.env['stock.move'].search([('state', 'in', ['done']),'|',('warehouse_id','=',warehouse.id),('location_id','=',warehouse.lot_stock_id.id),('product_id','=',product.id),('date','>=',start_date),('date','<=',end_date)],order="date ASC")
+        stocks = self.env['stock.move'].search([('state', 'in', ['done']),'|',('location_dest_id','=',warehouse.lot_stock_id.id),('location_id','=',warehouse.lot_stock_id.id),('product_id','=',product.id),('date','>=',start_date),('date','<=',end_date)],order="date ASC")
         company_id = self.env.context.get('force_company', self.env.company.id)
         create_date = datetime.strptime(start_date, '%Y-%m-%d')
         domain = [
@@ -191,10 +195,12 @@ class ReportAttendanceRecap(models.AbstractModel):
         total = 0
         for group in groups:
             total = self.env.company.currency_id.round(group['value'])
+
         return {
             'doc_ids': data['ids'],
             'doc_model': data['model'],
             'warehouse': warehouse[0]['display_name'],
+            'warehouse_id': warehouse.lot_stock_id.id,
             'start_date':start_date,
             'end_date' : end_date,
             'stocks': stocks,

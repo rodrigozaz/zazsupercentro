@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_move_line_margin_report_tree" model="ir.ui.view">
+            <field name="name">view.account.move.line.margin.report.tree</field>
+            <field name="model">account.move.line</field>
+            <field eval="100" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Invoice Lines" create="false" edit="false" delete="false">
+                    <field name="warehouse_id"/>
+                    <field name="date"/>
+                    <field name="date_maturity" optional="hide"/>
+                    <field name="move_id"/>
+                    <field name="partner_id"/>
+                    <field name="type_sale"/>
+                    <field name="company_id" groups="base.group_multi_company"  optional="show"/>
+                    <field name="journal_id" options='{"no_open":True}'  optional="hide"/>
+                    <field name="move_id" optional="hide"/>
+                    <field name="account_id" options="{'no_open': True}" optional="hide" groups="account.group_account_user"/>
+                    <field name="statement_id" invisible="1"/>
+                    <field name="ref" optional="hide"/>
+                    <field name="name" optional="hide"/>
+                    <field name="product_id"/>
+                    <field name="price_unit" optional="show"/>
+                    <field name="discount" optional="show"/>
+                    <field name="discount_price_unit" optional="show"/>
+                    <field name="quantity" optional="show"/>
+                    <field name="cost_price" optional="show"/>
+                    <field name="cost_subtotal" optional="show"/>
+                    <field name="margin" optional="show"/>
+                    <field name="margin_percent" optional="show"/>
+                    <field name="amount_currency" groups="base.group_multi_currency" optional="hide"/>
+                    <field name="always_set_currency_id" readonly="1" groups="base.group_multi_currency" optional="hide" string="Original Currency"/>
+                    <field name="price_subtotal" optional="show"/>
+                    <field name="price_total" optional="hide"/>
+                    <field name="reconciled" invisible="1"/>
+                    <field name="currency_id" readonly="1" invisible="1"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="parent_state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_account_move_line_margin_report_filter" model="ir.ui.view">
+            <field name="name">account.move.line.search</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <search string="Search Journal Items">
+                    <field name="warehouse_id"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="type_sale"/>
+                    <field name="journal_id"/>
+                    <field name="move_id" string="Journal Entry" filter_domain="[
+                        '|', '|', ('move_id.name', 'ilike', self), ('move_id.ref', 'ilike', self), ('move_id.partner_id', 'ilike', self)]"/>
+                    <separator/>
+                    <filter string="Unposted" name="unposted" domain="[('move_id.state', '=', 'draft')]" help="Unposted Journal Items"/>
+                    <filter string="Posted" name="posted" domain="[('move_id.state', '=', 'posted')]" help="Posted Journal Items"/>
+                    <separator/>
+                    <filter string="To Check" name="to_check" domain="[('move_id.to_check', '=', True)]"/>
+                    <separator/>
+                    <filter string="Unreconciled" domain="[('full_reconcile_id', '=', False), ('balance', '!=', 0), ('account_id.reconcile', '=', True)]" help="Journal items where matching number isn't set" name="unreconciled"/>
+                    <separator/>
+                    <filter string="Date" name="date" date="date"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Warehouse" name="group_by_warehouse" domain="[]" context="{'group_by': 'warehouse_id'}"/>
+                        <filter string="Tipo de Venta" name="group_by_type_sale" domain="[]" context="{'group_by': 'type_sale'}"/>
+                        <filter string="Partner" name="group_by_partner" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Journal" name="journal" domain="[]" context="{'group_by': 'journal_id'}"/>
+                        <filter string="Date" name="groupby_date" domain="[]" context="{'group_by': 'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_account_move_report_margin" model="ir.actions.act_window">
+            <field name="name">Invoice Margin Analysis</field>
+            <field name="res_model">account.move.line</field>
+            <field name="domain">[('display_type', 'not in', ('line_section', 'line_note')), ('exclude_from_invoice_tab', '=', False), ('move_id.type', 'in', ('out_invoice', 'out_refund', 'out_receipt')), ('move_id.journal_id.type', '=', 'sale')]</field>
+            <field name="view_id" ref="view_account_move_line_margin_report_tree"/>
+            <field name="search_view_id" ref="view_account_move_line_margin_report_filter"/>
+            <field name="context">{'search_default_group_by_warehouse': 1, 'search_default_posted':1, 'create':0}</field>
+            <field name="view_mode">tree,pivot,graph</field>
+        </record>
+
+        <menuitem name="Invoices Margin Analysis"
+                action="action_account_move_report_margin"
+                id="menu_action_account_move_report_margin"
+                parent="account.account_reports_management_menu" sequence="1"/>
+
+    </data>
+</odoo>

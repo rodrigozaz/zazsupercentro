@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name': "Materiales Castelar: New Report - Margins per customer per invoice",
     'summary': 'Report for margins of customer based on invoice',
@@ -13,14 +14,15 @@
     """,
     'category': 'Custom Development',
 
-    # any module necessary for this one to work correctly
-    'depends': ['account_accountant'],
-
-    # always loaded
-    'data': [
-        "views/account_journal_views.xml",
+    'depends': [
+        'account_accountant',
+        'sale_margin',
+        'sale_stock',
+        'materiales_stock_orders',
     ],
+    'data': [
+        'views/account_move_report_view.xml',
+    ],
+    'auto_install': True,
     'installable': True,
-    'application': False,
-    'auto_install': False,
 }
